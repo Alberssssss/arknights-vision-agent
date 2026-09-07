@@ -90,7 +90,7 @@ Keep all frames from a run or source recording in one partition; keep related re
 
 Keep raw recordings, extracted frames, event logs, and datasets out of this public repository. Its ignore rules help prevent accidental commits but are not secure storage. Inspect recordings for account identifiers, chat overlays, notifications, and other unrelated personal material before sharing. Do not place passwords, tokens, or connection details in manifests.
 
-The first manifest validator will check declarations and lexical paths only. It will not establish data-use rights, resolve symlinks, inspect real media, verify label truth, or claim that a sample is ready for training. See [the manifest design](demonstration-data-design.md) for the precise boundary.
+The implemented manifest validator checks declarations and lexical paths only. It does not establish data-use rights, resolve symlinks, inspect real media, verify label truth, or claim that a sample is ready for training. See [the exact v1 manifest contract](superpowers/specs/2026-09-07-demonstration-manifest-design.md) for the boundary. Eligibility reports and media preparation are separate follow-on work.
 
 ## Owner input that unlocks the pilot
 

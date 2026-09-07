@@ -1,12 +1,12 @@
-# Demonstration data: planned contract
+# Demonstration data: staged contract
 
-This is the next offline design, not an implemented dataset pipeline. It is a reversible continuation of the owner-approved plan. Real recordings and label review remain H02/H03 in `HUMAN_HELP.md`.
+This describes the staged offline data pipeline. The strict manifest validator is implemented; eligibility reports, partitioning, and real-media preparation remain follow-on work. It is a reversible continuation of the owner-approved plan. Real recordings and label review remain H02/H03 in `HUMAN_HELP.md`.
 
 ## What a useful example contains
 
 A video clip alone is not yet an observation/action training pair. This project will preserve separate records for the source media, the information visible before a decision, the proposed or demonstrated action, and the evidence supporting its label. An edited winning video is not assumed to reveal every input, its timing, or the reason for a decision.
 
-The first data tool will validate an explicitly authored manifest; it will not infer button presses from video, download recordings, decode media, or train a model. Automatic label proposals can be added later, but must remain distinguishable from input logs and human-verified labels.
+The first data tool validates an explicitly authored manifest; it does not infer button presses from video, download recordings, decode media, or train a model. Its exact representation is fixed in [the implemented v1 manifest contract](superpowers/specs/2026-09-07-demonstration-manifest-design.md). Automatic label proposals can be added later, but must remain distinguishable from input logs and human-verified labels.
 
 Its initial labels are limited to the reviewed action vocabulary: supported menu choices, waiting, and stopping. Deployment, operator skills, retreating, and other battle actions cannot yet be represented and must not be silently coerced into these labels. A menu-only data export would not train a complete battle-playing policy.
 
