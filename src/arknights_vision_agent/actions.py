@@ -1,6 +1,7 @@
 """Strict, offline validation for proposed actions."""
 
 import json
+import math
 
 _MAX_JSON_NESTING = 100
 _OBSERVATION_KEYS = {
@@ -36,6 +37,13 @@ def _reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict:
 
 def _reject_nonfinite_number(_: str) -> None:
     raise ActionValidationError("JSON contains a non-finite number")
+
+
+def _parse_finite_float(value: str) -> float:
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise ActionValidationError("JSON number exceeds the finite range")
+    return parsed
 
 
 def _is_nested_too_deep(value: object) -> bool:
@@ -83,6 +91,7 @@ def parse_action(payload: str) -> dict:
             payload,
             object_pairs_hook=_reject_duplicate_keys,
             parse_constant=_reject_nonfinite_number,
+            parse_float=_parse_finite_float,
         )
     except ActionValidationError:
         raise

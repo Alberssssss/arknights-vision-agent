@@ -57,6 +57,20 @@ class ParseActionTests(unittest.TestCase):
                 with self.assertRaises(ActionValidationError):
                     parse_action('{"wait_ms":' + constant + "}")
 
+    def test_rejects_float_overflow_at_any_depth(self):
+        payloads = (
+            '{"extra":1e999}',
+            '{"extra":-1e999}',
+            '{"extra":{"nested":[1e999]}}',
+        )
+        for payload in payloads:
+            with self.subTest(payload=payload):
+                with self.assertRaises(ActionValidationError):
+                    parse_action(payload)
+
+    def test_preserves_finite_large_float(self):
+        self.assertEqual({"extra": 1e300}, parse_action('{"extra":1e300}'))
+
     def test_rejects_non_object_top_level_values(self):
         for payload in ('[]', '"stop"', "1", "true", "null"):
             with self.subTest(payload=payload):
