@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "model": {
+    "model_id": "Qwen/Qwen3.8-27B",
+    "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "architecture": "Qwen3_5ForConditionalGeneration"
+  },
+  "controller": {
+    "backend": "maaframework",
+    "version": "5.12.3"
+  }
+}

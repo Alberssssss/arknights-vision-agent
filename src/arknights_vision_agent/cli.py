@@ -18,11 +18,13 @@ from arknights_vision_agent.preparation import (
     PreparationValidationError,
     build_preparation_report,
 )
+from arknights_vision_agent.preflight import PreflightError, build_preflight_report
 from arknights_vision_agent.replay import ReplayValidationError, replay_trace
 from arknights_vision_agent.strict_json import StrictJSONError, load_json_object
 
 _MANIFEST_MAX_BYTES = 16 * 1024 * 1024
 _TRACE_MAX_BYTES = 2 * 1024 * 1024
+_SETUP_PROFILE_MAX_BYTES = 2 * 1024 * 1024
 
 
 class _CLIError(ValueError):
@@ -67,6 +69,12 @@ def _build_parser() -> argparse.ArgumentParser:
     inventory_parser.add_argument(
         "--max-total-bytes", type=int, default=DEFAULT_MAX_TOTAL_BYTES
     )
+    preflight_parser = commands.add_parser(
+        "preflight",
+        help="compare setup declarations and report limited local facts",
+    )
+    preflight_parser.add_argument("--profile", required=True, type=Path)
+    preflight_parser.add_argument("--output", required=True, type=Path)
     return parser
 
 
@@ -88,8 +96,10 @@ def _load_trace(path: Path) -> dict:
     return _load_object(path, max_bytes=_TRACE_MAX_BYTES, kind="trace")
 
 
-def _load_inventory_request(path: Path) -> dict:
-    require_inventory_platform()
+def _load_regular_object(path: Path, *, max_bytes: int, kind: str) -> dict:
+    # Only internal fixed kind labels are supplied by command handlers.
+    if not hasattr(os, "O_NONBLOCK"):
+        raise _CLIError(f"{kind} input requires nonblocking file access")
     try:
         descriptor = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
         try:
@@ -99,17 +109,29 @@ def _load_inventory_request(path: Path) -> dict:
             raise
         with input_file:
             if not stat.S_ISREG(os.fstat(input_file.fileno()).st_mode):
-                raise InventoryError("inventory request must be a regular file")
-            payload = input_file.read(_TRACE_MAX_BYTES + 1)
+                raise _CLIError(f"{kind} must be a regular file")
+            payload = input_file.read(max_bytes + 1)
     except OSError as error:
-        raise InventoryError("cannot read the inventory request") from error
-    if len(payload) > _TRACE_MAX_BYTES:
-        raise InventoryError("inventory request exceeds the 2 MiB size limit")
+        raise _CLIError(f"cannot read the {kind}") from error
+    if len(payload) > max_bytes:
+        raise _CLIError(
+            f"{kind} exceeds the {max_bytes // (1024 * 1024)} MiB size limit"
+        )
     try:
         decoded = payload.decode("utf-8")
     except UnicodeDecodeError as error:
-        raise InventoryError("inventory request is not valid UTF-8") from error
-    return load_json_object(decoded, max_bytes=_TRACE_MAX_BYTES)
+        raise _CLIError(f"{kind} is not valid UTF-8") from error
+    return load_json_object(decoded, max_bytes=max_bytes)
+
+
+def _load_inventory_request(path: Path) -> dict:
+    require_inventory_platform()
+    try:
+        return _load_regular_object(
+            path, max_bytes=_TRACE_MAX_BYTES, kind="inventory request"
+        )
+    except _CLIError as error:
+        raise InventoryError(str(error)) from error
 
 
 def _render_reports(result: dict) -> tuple[str, str]:
@@ -234,6 +256,35 @@ def _inventory_command(arguments: argparse.Namespace) -> int:
     return 0
 
 
+def _preflight_command(profile_path: Path, output: Path) -> int:
+    if os.path.lexists(output):
+        raise _CLIError(f"output path already exists: {output}")
+    profile = _load_regular_object(
+        profile_path, max_bytes=_SETUP_PROFILE_MAX_BYTES, kind="setup profile"
+    )
+    report = build_preflight_report(profile)
+    rendered = json.dumps(
+        report, allow_nan=False, sort_keys=True, separators=(",", ":")
+    ) + "\n"
+    _write_report_files(output, {"preflight.json": rendered})
+    print(
+        f"Preflight report written to {output}; local facts only; "
+        "no training, inference, or device contact occurred."
+    )
+    for name in ("model", "controller"):
+        status = report["comparison"][name]["status"]
+        if status in ("not_configured", "unreviewed_contract"):
+            print(f"Warning: {name} is {status}; no compatibility established.")
+    if report["comparison"]["model"]["status"] == "contradicts_research_snapshot":
+        print(
+            "error: model architecture contradicts the research snapshot; "
+            f"diagnostic report retained in {output}",
+            file=sys.stderr,
+        )
+        return 2
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run the offline command-line interface and return its exit status."""
     arguments = _build_parser().parse_args(argv)
@@ -249,13 +300,21 @@ def main(argv: list[str] | None = None) -> int:
             )
         if arguments.command == "inventory":
             return _inventory_command(arguments)
+        if arguments.command == "preflight":
+            return _preflight_command(arguments.profile, arguments.output)
     except StrictJSONError as error:
         kind = {
             "replay": "trace",
             "prepare": "manifest",
             "inventory": "inventory request",
+            "preflight": "setup profile",
         }[arguments.command]
         print(f"error: invalid {kind} JSON: {error}", file=sys.stderr)
+    except PreflightError as error:
+        print(
+            f"error: invalid setup profile or local facts: {error}",
+            file=sys.stderr,
+        )
     except InventoryError as error:
         print(f"error: invalid inventory: {error}", file=sys.stderr)
     except PreparationValidationError as error:

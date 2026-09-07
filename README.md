@@ -97,6 +97,23 @@ Source bytes are not intentionally modified, but reading may update access time.
 
 Keep real reports private; relative names, IDs, and hashes can be sensitive, and duplicate candidates require review. Matching bytes do not detect edited/near-duplicate videos, verify rights or labels, merge leakage groups, or prove game performance. Timestamp indexing and label verification remain separate work. See the [exact byte-inventory boundary](docs/superpowers/specs/2026-09-07-byte-inventory-design.md).
 
+## Offline setup preflight
+
+Compare an explicit model/controller declaration with the repository's saved research snapshot and collect limited facts about the calling interpreter and host:
+
+```sh
+PYTHONPATH=src python3 -m arknights_vision_agent preflight \
+  --profile examples/setup_qwen38.json --output work/setup-report
+```
+
+The command writes exactly one `preflight.json`. The examples declare only candidate contracts: the shown 27B profile or `--profile examples/setup_qwen3vl8b.json` for the 8B profile. They are not a final model/controller choice and do not enable a runtime. The research snapshot records fixed declarations, not the latest releases or tested compatibility locks. A `matches_research_snapshot` result is not ready-to-run or compatibility evidence.
+
+Each null integration receives a `not_configured` warning, and unfamiliar model IDs/revisions or controller releases receive an `unreviewed_contract` warning. No compatibility is established. An exact known model/revision paired with the wrong architecture produces `contradicts_research_snapshot`: the diagnostic report is retained, and the command will exit 2 even when the controller also needs a warning. Other well-formed declarations exit 0 after the report is written; neither status authorizes execution. Invalid input, declarations, or local observations exit 2 without creating output parents.
+
+Choose a fresh output path for every run. Existing files, directories, and live or dangling symlinks are refused before input is read or local facts are collected. The output parent is owner-trusted; a later write failure may retain newly created partial output. Keep real reports private: declarations and host facts may be sensitive. The selected profile must be a regular strict UTF-8/JSON file no larger than 2 MiB; an explicitly selected profile symlink is allowed. The CLI requires `O_NONBLOCK` for its regular-file input boundary. The reporting API can report absent POSIX inventory features or `uname`; the CLI does not require the other inventory features just to report their absence. Feature availability is not a tested filesystem boundary or a wall-clock timeout.
+
+Observed values describe this command's current host, not a target H20 or its GPU memory. Executable presence is only a boolean PATH lookup for `ffmpeg`, `ffprobe`, `adb`, and `nvidia-smi`; no native tools are executed. The command does not load or download models, inspect private media, perform training or inference, contact a device, or start follow-on jobs. GPU identity/memory, model snapshots/processors, dependency compatibility, media timestamps and decoding, label quality, controller integration, and game performance still need separate, appropriately authorized checks. See the [exact setup-report boundary](docs/superpowers/specs/2026-09-07-setup-preflight-design.md) and [setup research notes](docs/setup-preflight-notes.md).
+
 ## Development
 
 The offline core targets Python 3.11+ and uses the standard library. It must run without GPU drivers, model weights, MaaFramework, a game account, or network services.
