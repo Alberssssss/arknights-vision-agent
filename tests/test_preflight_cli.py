@@ -415,6 +415,22 @@ class PreflightCLITests(unittest.TestCase):
             self.assertIs(features[name], False)
         self.assertIs(features["o_nonblock"], True)
 
+    def test_output_parent_file_failure_is_reported_by_real_subprocess(self):
+        parent = self.base / "output-parent"
+        original = b"keep the existing parent file unchanged\n"
+        parent.write_bytes(original)
+        output = parent / "report"
+
+        result = self.run_cli(*self.arguments(output))
+
+        self.assert_failure(result)
+        self.assertEqual(result.stdout, "")
+        self.assertIn("error:", result.stderr)
+        self.assertFalse(output.exists())
+        self.assertFalse((output / "preflight.json").exists())
+        self.assertTrue(parent.is_file())
+        self.assertEqual(parent.read_bytes(), original)
+
     def test_output_write_failure_keeps_partial_report_without_success_message(self):
         output = self.base / "report"
         real_open = Path.open
