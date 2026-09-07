@@ -6,6 +6,8 @@ Updated: 2026-09-07
 
 Develop a validated Arknights Integrated Strategies learning agent. The goal is not complete merely because an offline demo, test suite, or training script exists.
 
+Current owner direction (2026-09-07): leave actual training for later. Continue setup, pre-training preparation, and a practical training-data collection pipeline. No model-weight updates are authorized by this phase.
+
 ## Current milestone: offline foundation
 
 - [x] Public repository initialized with an introductory README.
@@ -14,7 +16,7 @@ Develop a validated Arknights Integrated Strategies learning agent. The goal is 
 - [x] Existing write authentication passed a Git dry-run; no account permissions were changed.
 - [x] Human-help queue recorded.
 - [x] Strict observation/action boundary implemented and reviewed.
-- [ ] Deterministic replay/dry-run loop implemented and reviewed.
+- [x] Deterministic replay/dry-run loop implemented and reviewed.
 - [ ] Command-line synthetic demo and machine-readable logs verified.
 - [ ] README and configuration instructions match the implementation.
 - [ ] Reviewed milestone published to the development branch.
@@ -27,6 +29,7 @@ Develop a validated Arknights Integrated Strategies learning agent. The goal is 
 - Action-boundary commit `57bfd9f`: 56 tests passed with `PYTHONPATH=src python3 -m unittest discover -s tests -q`; compilation and diff checks passed. Independent specification and code-quality re-reviews passed with no remaining findings.
 - A wheel built with `python3 -m pip wheel --no-deps --no-build-isolation --no-index --wheel-dir work/package-check .`. The wheel installed with no index/dependencies into a fresh ignored virtual environment and passed the same 54 tests using isolated Python mode. This verified Python 3.13 only, not every supported Python version.
 - Future data, MaaFramework, and pinned model/hardware contracts are documented; these are not implemented integrations.
+- Replay commit `fdf4cea`: the coordinator ran all 88 tests, compilation, and diff checks successfully. Independent specification and quality reviews passed with no findings.
 
 ## Not demonstrated
 

@@ -36,7 +36,7 @@ def validate_action(action: dict, observation: dict, *, now_ms: int,
 
 ### Step 1: Write behavioral tests before implementation
 
-- [ ] Add a minimal test file. Use this complete happy-path example as the first case:
+- [x] Add a minimal test file. Use this complete happy-path example as the first case:
 
 ```python
 import unittest
@@ -59,28 +59,28 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-- [ ] Run `PYTHONPATH=src python3 -m unittest discover -s tests -v` and record the initial missing-feature failure. Once the importable module exists, add each negative case before adding the corresponding validation and observe a behavioral failure.
+- [x] Run `PYTHONPATH=src python3 -m unittest discover -s tests -v` and record the initial missing-feature failure. Once the importable module exists, add each negative case before adding the corresponding validation and observe a behavioral failure.
 
 ### Step 2: Implement the exact contract in small red/green increments
 
-- [ ] Define `ActionValidationError` as the public failure type.
-- [ ] Make `parse_action` require a string no larger than 16,384 UTF-8 bytes; use `json.loads` with `object_pairs_hook` that rejects repeated keys and `parse_constant` that rejects NaN/Infinity. Reject float decoding that overflows to a non-finite value so later JSON reports remain serializable. Require a top-level object. Convert expected JSON/Unicode/type failures to `ActionValidationError` without evaluating any text.
-- [ ] Make `validate_action` require plain dictionaries and the exact observation fields from the design. Reject missing/unknown fields, wrong types, empty/whitespace-only identifiers, identifiers over 128 characters, duplicate options, and invalid provenance or screen names.
-- [ ] Validate integers with `type(value) is int`, not `isinstance(value, int)`, so booleans cannot pass. `captured_at_ms`, `now_ms`, and `max_age_ms` are non-negative integers.
-- [ ] Require action identifiers to match the observation before accepting any action. Enforce exact fields per kind. A select action needs one available option and a recruitment/route/event screen; wait needs 1..10,000 ms and a non-terminal screen; stop has no extra fields.
-- [ ] Reject future and stale observations for select/wait. Stop still requires matching identifiers and a valid schema but can stop a stale trace.
-- [ ] Return a new dictionary, never a mutation of input data. The module must import no controller, model, subprocess, network, or filesystem functionality.
+- [x] Define `ActionValidationError` as the public failure type.
+- [x] Make `parse_action` require a string no larger than 16,384 UTF-8 bytes; use `json.loads` with `object_pairs_hook` that rejects repeated keys and `parse_constant` that rejects NaN/Infinity. Reject float decoding that overflows to a non-finite value so later JSON reports remain serializable. Require a top-level object. Convert expected JSON/Unicode/type failures to `ActionValidationError` without evaluating any text.
+- [x] Make `validate_action` require plain dictionaries and the exact observation fields from the design. Reject missing/unknown fields, wrong types, empty/whitespace-only identifiers, identifiers over 128 characters, duplicate options, and invalid provenance or screen names.
+- [x] Validate integers with `type(value) is int`, not `isinstance(value, int)`, so booleans cannot pass. `captured_at_ms`, `now_ms`, and `max_age_ms` are non-negative integers.
+- [x] Require action identifiers to match the observation before accepting any action. Enforce exact fields per kind. A select action needs one available option and a recruitment/route/event screen; wait needs 1..10,000 ms and a non-terminal screen; stop has no extra fields.
+- [x] Reject future and stale observations for select/wait. Stop still requires matching identifiers and a valid schema but can stop a stale trace.
+- [x] Return a new dictionary, never a mutation of input data. The module must import no controller, model, subprocess, network, or filesystem functionality.
 
 ### Step 3: Complete the contract test matrix
 
-- [ ] Add real behavioral tests for: select on each supported menu; wait on unknown; stop on terminal and stale observations; unavailable option; duplicate options; missing and additional keys; invalid kind; option fields on wait/stop; wait bounds and boolean values; wrong run; wrong observation; future time; exact age boundary and stale time; unknown/terminal selection; malformed JSON; duplicate JSON keys; NaN/Infinity; array/scalar top level; oversized payload; invalid Unicode; non-dictionary direct calls; input non-mutation.
-- [ ] Run `PYTHONPATH=src python3 -m unittest discover -s tests -v` and `python3 -m compileall -q src tests`. Both must pass.
+- [x] Add real behavioral tests for: select on each supported menu; wait on unknown; stop on terminal and stale observations; unavailable option; duplicate options; missing and additional keys; invalid kind; option fields on wait/stop; wait bounds and boolean values; wrong run; wrong observation; future time; exact age boundary and stale time; unknown/terminal selection; malformed JSON; duplicate JSON keys; NaN/Infinity; array/scalar top level; oversized payload; invalid Unicode; non-dictionary direct calls; input non-mutation.
+- [x] Run `PYTHONPATH=src python3 -m unittest discover -s tests -v` and `python3 -m compileall -q src tests`. Both must pass.
 
 ### Step 4: Review and commit
 
-- [ ] Inspect the diff for network/device side effects and unrelated edits.
-- [ ] Request an independent specification review, address findings, then request a separate code-quality review.
-- [ ] Commit only this task's files with `feat: add strict offline action boundary` after verification. Do not push or edit `STATUS.md`; the coordinating agent handles reviewed publication and status.
+- [x] Inspect the diff for network/device side effects and unrelated edits.
+- [x] Request an independent specification review, address findings, then request a separate code-quality review.
+- [x] Commit only this task's files with `feat: add strict offline action boundary` after verification. Do not push or edit `STATUS.md`; the coordinating agent handles reviewed publication and status.
 
 ## Follow-on plans
 

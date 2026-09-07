@@ -28,7 +28,7 @@ The summary contains `steps_available`, `steps_processed`, `allowed_actions`, `b
 
 `allowed_actions` counts only `allowed_dry_run` events, not stop. `steps_processed` counts every emitted event, including a blocked or stopped event. `trace_exhausted` means the event count equals `steps_available`, even when the final available step stops or is blocked; it is not a correctness or gameplay result. Do not mutate the trace or return mutable references to its nested objects.
 
-- [ ] Write tests first. A valid sample is:
+- [x] Write tests first. A valid sample is:
 
 ```python
 trace = {
@@ -50,15 +50,17 @@ assert result["events"][0]["executed"] is False
 assert result["summary"]["game_clear_verified"] is False
 ```
 
-- [ ] Observe an initial failing test, then implement the valid path.
-- [ ] Add failing cases before implementing rejection for schema/version/source errors, mismatched provenance, duplicate observation IDs, backward clocks, excessive or empty steps, and wrong data types.
-- [ ] Add tests that stale/invalid actions yield a blocked event, halt before later actions, and never report game success; test stop short-circuiting and non-mutation.
-- [ ] Verify `PYTHONPATH=src python3 -m unittest discover -s tests -v` and `python3 -m compileall -q src tests`.
-- [ ] Complete specification then code-quality reviews and commit `feat: add deterministic dry-run replay`.
+- [x] Observe an initial failing test, then implement the valid path.
+- [x] Add failing cases before implementing rejection for schema/version/source errors, mismatched provenance, duplicate observation IDs, backward clocks, excessive or empty steps, and wrong data types.
+- [x] Add tests that stale/invalid actions yield a blocked event, halt before later actions, and never report game success; test stop short-circuiting and non-mutation.
+- [x] Verify `PYTHONPATH=src python3 -m unittest discover -s tests -v` and `python3 -m compileall -q src tests`.
+- [x] Complete specification then code-quality reviews and commit `feat: add deterministic dry-run replay`.
 
 ## Task 2: CLI, synthetic example, and documentation
 
-**Files:** Create `src/arknights_vision_agent/__main__.py`, `src/arknights_vision_agent/cli.py`, `tests/test_cli.py`, and `examples/synthetic_recruitment.json`. Update README and packaging metadata only as needed for the documented CLI.
+**Files:** Create `src/arknights_vision_agent/__main__.py`, `src/arknights_vision_agent/cli.py`, `src/arknights_vision_agent/strict_json.py`, `tests/test_cli.py`, `tests/test_strict_json.py`, and `examples/synthetic_recruitment.json`. Refactor `actions.py` to delegate parsing to the shared strict loader without changing its public API or validation behavior. Update README and packaging metadata only as needed for the documented CLI.
+
+The file reader and action parser need different byte limits but identical JSON correctness rules. Extract the reviewed parsing logic into a pure `load_json_object(payload: str, *, max_bytes: int) -> dict` API in `strict_json.py`, raising `StrictJSONError(ValueError)`. Require a positive exact integer byte limit; retain plain-text input, UTF-8 byte bounds, top-level object, duplicate-key rejection, non-finite literal and overflow rejection, depth bounds, Unicode checks, and normalization of expected numeric/JSON decoding errors. Keep `parse_action` as the 16,384-byte wrapper translating the shared error into `ActionValidationError`. Do not import private action helpers into the CLI or copy their validation rules. Existing action tests must remain green, and new shared-loader tests must cover a valid object larger than the action limit, byte-limit boundaries, and invalid byte-limit argument types/values.
 
 Command:
 
@@ -67,7 +69,7 @@ PYTHONPATH=src python3 -m arknights_vision_agent replay \
   --trace examples/synthetic_recruitment.json --output work/demo-run
 ```
 
-The trace file is limited to 2 MiB. Parse strict JSON without duplicate keys or NaN/Infinity and reject unexpected shapes through `replay_trace`. Catch validation and filesystem failures and print a concise diagnostic to stderr with a nonzero exit code. Existing output directories must be rejected without modifying them; do not provide a force-overwrite option in this milestone. The command creates a new directory and writes `events.jsonl` plus `summary.json`. Render JSON with standard finite values only. A blocked action exits nonzero while retaining the diagnostic report. Valid dry-run output prints its path and explicitly says no game or device was controlled.
+The trace file is limited to 2 MiB; bound the actual file read to that limit plus one byte before decoding. Parse using the shared strict loader and reject unexpected shapes through `replay_trace`. Catch validation and filesystem failures and print a concise diagnostic to stderr with a nonzero exit code, without a traceback or raw trace payload. Existing output directories must be rejected without modifying them; do not provide a force-overwrite option in this milestone. The command creates a new directory and writes `events.jsonl` plus `summary.json`. Missing parent directories may be created so the documented clean-clone command works; a parent that is an ordinary file is an error. Use exclusive file creation inside the new output directory. Render JSON with standard finite values only. A blocked action exits nonzero while retaining the diagnostic report. Valid dry-run output prints its path and explicitly says no game or device was controlled.
 
 The synthetic example contains generic choices only: one valid recruitment selection, one bounded wait on an unknown screen, and one terminal stop, with unique observation IDs and increasing timestamps. Do not include Arknights screenshots, real operator strategy claims, or a claim that a learned model supplied the decisions.
 

@@ -4,6 +4,8 @@ An offline-first research project toward an Arknights Integrated Strategies agen
 
 **This is not a finished game-playing bot.** No model training, real-device control, or game clear has been demonstrated by this repository. See [STATUS.md](STATUS.md) for checks actually completed and [HUMAN_HELP.md](HUMAN_HELP.md) for items awaiting the owner.
 
+The current phase is setup and training-data preparation. The owner has explicitly deferred actual training; no pretraining or fine-tuning job should start automatically.
+
 ## Intended system
 
 ```text

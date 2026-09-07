@@ -4,6 +4,7 @@
 
 - Work only in this repository. The neighboring `ideas` repository is unrelated.
 - The owner approved autonomous, incremental development. Record human-dependent items in `HUMAN_HELP.md` and continue independent work.
+- On 2026-09-07 the owner explicitly deferred actual model training. Focus on setup, demonstration collection/preparation, validation, and evaluation tooling. Do not start pretraining, fine-tuning, optimizer steps, or a paid compute job unless the owner subsequently changes this instruction. "Pretraining preparation" is not authorization to update model weights.
 - Keep code on a development branch until its tests and reviews pass. Do not force-push, rewrite unrelated history, or alter repository access.
 - Read `STATUS.md` and the current plan before starting a new milestone.
 - Use test-first development, small commits, and independent specification and quality reviews.

@@ -8,6 +8,8 @@ A video clip alone is not yet an observation/action training pair. This project 
 
 The first data tool will validate an explicitly authored manifest; it will not infer button presses from video, download recordings, decode media, or train a model. Automatic label proposals can be added later, but must remain distinguishable from input logs and human-verified labels.
 
+Its initial labels are limited to the reviewed action vocabulary: supported menu choices, waiting, and stopping. Deployment, operator skills, retreating, and other battle actions cannot yet be represented and must not be silently coerced into these labels. A menu-only data export would not train a complete battle-playing policy.
+
 ## Design choices
 
 1. Ingest all video frames directly as training examples: not selected. It loses action provenance and risks placing near-identical frames from the same run in training and evaluation.
@@ -36,6 +38,17 @@ Use a deterministic ordering based on a recorded seed and stable group identifie
 ## Future media preparation
 
 Once H02 is available, inspect actual frame rate, duration, edits, visual legibility, and input-log alignment. Select causal frame windows before each action. Keep future outcome frames out of policy inputs; store run outcome separately for analysis. Record extraction settings and source hashes in generated metadata. The manifest-only stage cannot verify file existence, content, frame timestamps, visual coverage, input-log truth, or data-use rights.
+
+## Concrete v1 decisions from design review
+
+These decisions narrow the implementation contract; they do not validate any real recording:
+
+- Keep media-relative and run-relative clocks separate. Declare a constant integer `media_to_run_offset_ms` per run/recording pair, with `run_ms = media_ms + offset_ms`. Nonlinear or edited alignment is outside v1. Media intervals include both endpoint timestamps. Require a nonnegative mapped start, `mapped_start <= mapped_end`, `mapped_end == observation.captured_at_ms`, and `captured_at_ms <= decision_at_ms`. Here the decision timestamp means action onset. This binds the observation to the latest input frame and applies causality even to stop labels, despite the execution guard's intentionally permissive stop timing.
+- Require an opaque label-evidence ID. Accepted or rejected reviews must carry an opaque review ID; pending labels have no review ID. A reviewed inferred label stays marked inferred. These references are declarations only and are not opened or independently verified by the manifest validator.
+- Make record IDs globally unique and `(run_id, observation_id)` pairs unique. Every run and recording has exactly one leakage group across all records, including excluded records. A recording has one path and source type; one literal media path must not masquerade as multiple recording IDs. Constant clock mappings must agree for each run/recording pair. Multiple runs per recording and recordings per run are permitted when these consistency rules hold.
+- Media references are literal relative POSIX paths. Reject absolute paths, backslashes, colons, empty segments, `.`/`..` segments, control characters, and home-expansion prefixes. Do not expand variables, decode URLs, normalize away traversal, inspect files, or resolve symlinks. Report lexical validation only. A future reader must separately enforce resolved containment in its approved private root.
+- Assign each leakage group with a versioned SHA-256 algorithm over a canonical JSON encoding of `[seed, leakage_group_id]` and fixed integer-weight partition thresholds. Record the algorithm, seed, and weights. Assignment is independent of row order and label/permission eligibility. Never use Python's process-randomized `hash()`. Empty partitions remain empty and are reported as such.
+- Report metadata eligibility separately: exactly recorded source, accepted review, and literal Boolean permission `true`. Report all exclusion reasons; synthetic, pending, rejected, and permission-denied records never count toward recorded export eligibility. Reject live-source manifests entirely. Neither metadata eligibility nor partition membership proves that a sample is correct or trainable.
 
 ## Acceptance for a later implementation plan
 
