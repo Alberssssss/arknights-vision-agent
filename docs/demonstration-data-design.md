@@ -1,6 +1,6 @@
 # Demonstration data: staged contract
 
-This describes the staged offline data pipeline. The strict manifest validator is implemented; eligibility reports, partitioning, and real-media preparation remain follow-on work. It is a reversible continuation of the owner-approved plan. Real recordings and label review remain H02/H03 in `HUMAN_HELP.md`.
+This describes the staged offline data pipeline. Strict manifest validation and metadata eligibility/group-partition reporting are implemented as pure APIs and exposed through the offline `prepare` command. Real-media preparation remains follow-on work. It is a reversible continuation of the owner-approved plan. Real recordings and label review remain H02/H03 in `HUMAN_HELP.md`.
 
 ## What a useful example contains
 
@@ -30,6 +30,8 @@ Each demonstration record will reference:
 Unknown or inconsistent metadata should fail validation with a record index and a concise reason. Unreviewed and rejected labels may be stored for review, but never silently promoted to training-ready examples. Synthetic examples must be kept separate from recorded examples in eligibility reports.
 
 ## Split rules
+
+The implemented report follows [the exact v1 eligibility and partition contract](superpowers/specs/2026-09-07-preparation-report-design.md). These are assignments over declared metadata, not exported or inspected media.
 
 Splits must preserve whole runs and source recordings. Explicit leakage groups make related recordings indivisible as well. A run or recording appearing under multiple leakage groups is an error rather than an opportunity to put it in both training and evaluation.
 
