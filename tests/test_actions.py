@@ -1,5 +1,6 @@
 import copy
 from pathlib import Path
+import sys
 import tomllib
 import unittest
 
@@ -97,6 +98,27 @@ class ParseActionTests(unittest.TestCase):
         with self.assertRaises(ActionValidationError):
             parse_action(payload)
 
+    def test_integer_conversion_limit_error_is_normalized(self):
+        get_limit = getattr(sys, "get_int_max_str_digits", None)
+        set_limit = getattr(sys, "set_int_max_str_digits", None)
+        if get_limit is None or set_limit is None:
+            self.skipTest("interpreter has no integer string conversion limit")
+
+        payload = '{"wait_ms":' + ("1" * 5000) + "}"
+        original_limit = get_limit()
+        changed_limit = original_limit == 0 or original_limit >= 5000
+        if changed_limit:
+            set_limit(4300)
+        try:
+            with self.assertRaises(ActionValidationError) as caught:
+                parse_action(payload)
+        finally:
+            if changed_limit:
+                set_limit(original_limit)
+
+        self.assertNotIn(payload, str(caught.exception))
+        self.assertLess(len(str(caught.exception)), 256)
+
 
 class ObservationValidationTests(unittest.TestCase):
     def setUp(self):
@@ -133,7 +155,7 @@ class ObservationValidationTests(unittest.TestCase):
 
     def test_rejects_invalid_observation_ids(self):
         for field in ("run_id", "observation_id"):
-            for value in ("", " \t", "x" * 129, 7, None):
+            for value in ("", " \t", "x" * 129, "\ud800", 7, None):
                 with self.subTest(field=field, value=value):
                     self.assert_invalid_observation(**{field: value})
 
@@ -158,7 +180,7 @@ class ObservationValidationTests(unittest.TestCase):
         )
 
     def test_rejects_invalid_option_ids(self):
-        for option_id in ("", " \n", "x" * 129, 3, None):
+        for option_id in ("", " \n", "x" * 129, "\ud800", 3, None):
             with self.subTest(option_id=option_id):
                 self.assert_invalid_observation(available_options=[option_id])
 
@@ -246,7 +268,7 @@ class ActionSchemaTests(unittest.TestCase):
 
     def test_rejects_invalid_action_ids(self):
         for field in ("run_id", "observation_id"):
-            for value in ("", " \t", "x" * 129, 7, None):
+            for value in ("", " \t", "x" * 129, "\ud800", 7, None):
                 with self.subTest(field=field, value=value):
                     action = {
                         "run_id": "synthetic-run",
@@ -258,7 +280,7 @@ class ActionSchemaTests(unittest.TestCase):
                     self.assert_invalid_action(action)
 
     def test_rejects_invalid_selected_option_id(self):
-        for option_id in ("", " \n", "x" * 129, 3, None):
+        for option_id in ("", " \n", "x" * 129, "\ud800", 3, None):
             with self.subTest(option_id=option_id):
                 self.assert_invalid_action(
                     {
@@ -404,6 +426,45 @@ class ActionBehaviorTests(unittest.TestCase):
                         now_ms=1100,
                     ),
                 )
+
+    def test_accepts_valid_non_ascii_ids(self):
+        action = {
+            "run_id": "运行-一",
+            "observation_id": "画面-一",
+            "kind": "select",
+            "option_id": "选项-甲",
+        }
+        observation = self.make_observation(
+            run_id="运行-一",
+            observation_id="画面-一",
+            available_options=["选项-甲", "选项-乙"],
+        )
+
+        self.assertEqual(
+            action,
+            validate_action(action, observation, now_ms=1100),
+        )
+
+    def test_rejects_matching_lone_surrogate_ids(self):
+        cases = (
+            ({"run_id": "\ud800"}, {"run_id": "\ud800"}),
+            (
+                {"observation_id": "\ud800"},
+                {"observation_id": "\ud800"},
+            ),
+            (
+                {"option_id": "\ud800"},
+                {"available_options": ["\ud800"]},
+            ),
+        )
+        for action_changes, observation_changes in cases:
+            with self.subTest(action_changes=action_changes):
+                with self.assertRaises(ActionValidationError):
+                    validate_action(
+                        self.make_action("select", **action_changes),
+                        self.make_observation(**observation_changes),
+                        now_ms=1100,
+                    )
 
     def test_rejects_mismatched_run_or_observation_even_for_stop(self):
         for field, value in (

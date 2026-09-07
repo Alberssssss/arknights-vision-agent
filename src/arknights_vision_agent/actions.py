@@ -86,7 +86,7 @@ def parse_action(payload: str) -> dict:
         )
     except ActionValidationError:
         raise
-    except (json.JSONDecodeError, RecursionError, TypeError, UnicodeError) as error:
+    except (ValueError, RecursionError, TypeError, UnicodeError) as error:
         raise ActionValidationError("action payload is not valid JSON") from error
     if type(parsed) is not dict:
         raise ActionValidationError("action payload must contain a JSON object")
@@ -98,7 +98,13 @@ def parse_action(payload: str) -> dict:
 
 
 def _is_valid_id(value: object) -> bool:
-    return type(value) is str and bool(value.strip()) and len(value) <= 128
+    if type(value) is not str or not value.strip() or len(value) > 128:
+        return False
+    try:
+        value.encode("utf-8")
+    except UnicodeEncodeError:
+        return False
+    return True
 
 
 def _validate_observation(observation: dict) -> None:
