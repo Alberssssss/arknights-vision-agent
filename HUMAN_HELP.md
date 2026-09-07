@@ -18,6 +18,8 @@ Actual model training is explicitly deferred by the owner as of 2026-09-07. Ther
 
 The proposed [data-collection workflow](docs/training-data-collection.md) explains which recordings and logs will be most useful. It is preparation guidance, not a request to start unattended device operation.
 
+For H02, the [small private pilot handoff](docs/recording-pilot.md) shows what to supply and what may remain unknown. Video-only samples are useful for an initial inspection; they are not automatically verified observation/action pairs. Keep the packet private and outside this public repository.
+
 - Refer to an item ID in the conversation, for example: "H01: start with ...".
 - Provide recordings and secrets through an appropriate private location or configured connection, not Git commits.
 - The agent will update this table as items are resolved and keep other work moving.

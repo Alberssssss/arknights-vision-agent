@@ -10,6 +10,8 @@ Status: preparation only. Actual collection from a game/device requires the owne
 
 The first goal is a small, inspectable pilot, not a large video archive. For example, begin with a few short menu-decision segments and a complete run if available. These are workflow tests, not a claim that this quantity is enough to train a useful agent.
 
+The [private pilot handoff](recording-pilot.md) gives a suggested packet layout, a file-selection example, and an intake/review worksheet. Missing inputs or clock information can remain unknown; do not manufacture logs or precise timestamps to fill the packet.
+
 ## What the existing automation tools actually provide
 
 Primary-source inspection on 2026-09-07 used MaaFramework v5.12.3 (`0c3f6454902b8ff9f7697cc6b09a7a935a41cdbb`) and MAA v6.17.2 (`e523b2038c6790f5f45d95c2e1de84c3450cc357`). No SDK was run against a device.
