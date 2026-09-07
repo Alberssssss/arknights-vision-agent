@@ -52,6 +52,31 @@ This dry run validates recorded observations and proposed action text; it is not
 
 The command creates `events.jsonl`, with one attempted action per line, and `summary.json`, with dry-run counts and `game_clear_verified: false`. A blocked action is retained in those reports and makes the command exit nonzero. The command will not overwrite an existing output directory, file, or symbolic link, and it has no force option; choose a new output path for each run.
 
+## Metadata preparation demo
+
+The local implementation can validate a demonstration manifest and write an offline metadata-eligibility and leakage-group split report:
+
+```sh
+PYTHONPATH=src python3 -m arknights_vision_agent prepare \
+  --manifest examples/synthetic_demonstrations.json \
+  --output work/preparation-demo
+```
+
+The command creates one `preparation.json` file. It is metadata-only: no media is inspected and no training is started. The public fixture contains no actual media, and all three records are excluded from eligibility because they are synthetic and/or lack accepted, permission-attested labels. Its referenced paths are declarations only.
+
+Choose a fresh output path for every run. The command will not overwrite an existing directory, file, or symbolic link and has no force option. A custom deterministic split can be requested, for example:
+
+```sh
+PYTHONPATH=src python3 -m arknights_vision_agent prepare \
+  --manifest examples/synthetic_demonstrations.json \
+  --output work/preparation-seed-7 \
+  --seed 7 --weights 8000 1000 1000
+```
+
+Split weights are approximate ratios across complete leakage groups, so small inputs may leave partitions empty. The command warns when any partition has no metadata-eligible records. The reported manifest digest covers canonicalized declarations; it is not a hash of referenced media and does not verify media, labels, reviewers, or permission claims.
+
+See the [manifest design](docs/superpowers/specs/2026-09-07-demonstration-manifest-design.md), [preparation-report design](docs/superpowers/specs/2026-09-07-preparation-report-design.md), [training-data collection plan](docs/training-data-collection.md), and [human-help queue](HUMAN_HELP.md) for the exact boundary and remaining real-data work.
+
 ## Development
 
 The offline core targets Python 3.11+ and uses the standard library. It must run without GPU drivers, model weights, MaaFramework, a game account, or network services.
@@ -67,8 +92,7 @@ Tests are added before their implementation. Each task receives a specification 
 
 ## Subsequent milestones
 
-- Validate demonstration records, action provenance, and splits grouped by complete run/source recording.
-- Add a review workflow for inferred labels and corrections from failed attempts.
+- Inventory approved real media, confirm clock alignment, and complete human review of inferred labels and corrections from failed attempts.
 - Prepare baseline comparison and future fine-tuning configurations. Actual fine-tuning requires the owner's later training decision, private data, and approved GPU access.
 - Add a version-pinned controller adapter behind explicit live-access gates.
 - Measure real capture-to-action latency and verify actions on an approved environment.
