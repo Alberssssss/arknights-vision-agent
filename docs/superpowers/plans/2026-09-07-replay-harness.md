@@ -73,14 +73,14 @@ The trace file is limited to 2 MiB; bound the actual file read to that limit plu
 
 The synthetic example contains generic choices only: one valid recruitment selection, one bounded wait on an unknown screen, and one terminal stop, with unique observation IDs and increasing timestamps. Do not include Arknights screenshots, real operator strategy claims, or a claim that a learned model supplied the decisions.
 
-- [ ] Write subprocess-based CLI tests using temporary directories: help, valid trace, malformed JSON, blocked action, missing file, oversized file, existing output with sentinel preservation, and invalid output parent.
-- [ ] Observe red, implement the smallest parser/entrypoint/output code, and verify green. Tests must run the actual module, not mock the CLI.
-- [ ] Run the documented demo in a fresh ignored output directory, inspect both files, and confirm `executed` and `game_clear_verified` are false.
-- [ ] Check the README accurately describes replay versus a simulator/live player and links the human-help queue.
-- [ ] Complete specification then quality review; commit `feat: add offline replay CLI and synthetic demo`.
+- [x] Write subprocess-based CLI tests using temporary directories: help, valid trace, malformed JSON, blocked action, missing file, oversized file, existing output with sentinel preservation, and invalid output parent.
+- [x] Observe red, implement the smallest parser/entrypoint/output code, and verify green. Tests must run the actual module, not mock the CLI.
+- [x] Run the documented demo in a fresh ignored output directory, inspect both files, and confirm `executed` and `game_clear_verified` are false.
+- [x] Check the README accurately describes replay versus a simulator/live player and links the human-help queue.
+- [x] Complete specification then quality review; commit `feat: add offline replay CLI and synthetic demo`.
 
 ## Milestone acceptance
 
-- [ ] All tests pass, the demo works in a clean environment without MaaFramework/model packages, and the output vocabulary remains explicit.
-- [ ] The coordinator updates `STATUS.md` with exact commands/counts and publishes only reviewed commits.
-- [ ] The overall project goal remains active; the offline demonstration does not close the human-dependent validation requirements.
+- [x] All tests pass, the demo works in a clean environment without MaaFramework/model packages, and the output vocabulary remains explicit.
+- [x] The coordinator updates `STATUS.md` with exact commands/counts and publishes only reviewed commits.
+- [x] The overall project goal remains active; the offline demonstration does not close the human-dependent validation requirements.

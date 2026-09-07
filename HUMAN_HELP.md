@@ -16,6 +16,8 @@ The development goal is active. These items are parked, not reasons to stop inde
 
 Actual model training is explicitly deferred by the owner as of 2026-09-07. There is no need to arrange a training run now; useful early inputs are H01 (target scope) and H02 (a small private recording pilot).
 
+The proposed [data-collection workflow](docs/training-data-collection.md) explains which recordings and logs will be most useful. It is preparation guidance, not a request to start unattended device operation.
+
 - Refer to an item ID in the conversation, for example: "H01: start with ...".
 - Provide recordings and secrets through an appropriate private location or configured connection, not Git commits.
 - The agent will update this table as items are resolved and keep other work moving.

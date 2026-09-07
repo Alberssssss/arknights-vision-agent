@@ -28,7 +28,7 @@ The development assistant builds and tests the system. A future deployed policy 
 
 ## First milestone
 
-The current development branch is `codex/offline-foundation`. Its first deliverables are:
+The current development branch is `codex/offline-foundation`. The reviewed offline foundation includes:
 
 1. An observation-bound action contract that rejects malformed, unknown, stale, cross-run, and unavailable actions.
 2. A deterministic replay harness with explicit dry-run outcomes.
@@ -69,7 +69,7 @@ Tests are added before their implementation. Each task receives a specification 
 
 - Validate demonstration records, action provenance, and splits grouped by complete run/source recording.
 - Add a review workflow for inferred labels and corrections from failed attempts.
-- Compare a configured pretrained policy with a small fine-tuning experiment, after private data and GPU access are available.
+- Prepare baseline comparison and future fine-tuning configurations. Actual fine-tuning requires the owner's later training decision, private data, and approved GPU access.
 - Add a version-pinned controller adapter behind explicit live-access gates.
 - Measure real capture-to-action latency and verify actions on an approved environment.
 - Evaluate complete unattended runs against an unchanged baseline under declared conditions.
@@ -90,6 +90,7 @@ Do not put recordings, account details, connection credentials, datasets, model 
 - [Action-boundary implementation plan](docs/superpowers/plans/2026-09-07-action-boundary.md)
 - [Replay implementation plan](docs/superpowers/plans/2026-09-07-replay-harness.md)
 - [Planned demonstration-data contract](docs/demonstration-data-design.md)
+- [Training-data collection plan](docs/training-data-collection.md)
 - [MaaFramework integration notes](docs/maaframework-integration-notes.md)
 - [Model and hardware research snapshot](docs/model-and-hardware-notes.md)
 
