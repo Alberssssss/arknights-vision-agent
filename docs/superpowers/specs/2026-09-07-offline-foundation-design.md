@@ -27,7 +27,7 @@ An observation contains exactly these fields:
 
 An action contains `run_id`, `observation_id`, and `kind`. `select` additionally requires only `option_id`; `wait` additionally requires only `wait_ms`; `stop` has no additional fields. Unknown fields and action kinds are rejected. Wait durations are integers from 1 to 10,000 ms. Selection is valid only on a known supported menu and for an available option. Terminal screens permit only stop; unknown screens permit only wait or stop.
 
-Actions are bound to the observation and run that produced them. A guard rejects mismatched identifiers, future-dated observations, or observations older than a supplied age limit. A stop request may terminate even on a stale observation, but must still match run and observation identifiers. The caller supplies `now_ms`, so an offline replay never treats wall-clock time as a recorded timestamp.
+Actions are bound to the observation and run that produced them. For select/wait, a guard rejects mismatched identifiers, future-dated observations, or observations older than a supplied age limit. A stop request may terminate even on a stale or future observation, but must still match run and observation identifiers and pass schema and clock-type checks. This exception permits fail-closed stopping, not a game interaction. The caller supplies `now_ms`, so an offline replay never treats wall-clock time as a recorded timestamp.
 
 JSON parsing is bounded, rejects duplicate keys and non-standard numeric constants, and does not execute model-generated text. Invalid input raises a project-specific validation error with a useful diagnostic, not a guessed action.
 
