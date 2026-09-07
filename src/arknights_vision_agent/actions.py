@@ -1,5 +1,6 @@
 """Strict, offline validation for proposed actions."""
 
+from arknights_vision_agent.identifiers import is_valid_identifier as _is_valid_id
 from arknights_vision_agent.strict_json import StrictJSONError, load_json_object
 
 _OBSERVATION_KEYS = {
@@ -30,16 +31,6 @@ def parse_action(payload: str) -> dict:
         return load_json_object(payload, max_bytes=16384)
     except StrictJSONError as error:
         raise ActionValidationError(str(error)) from error
-
-
-def _is_valid_id(value: object) -> bool:
-    if type(value) is not str or not value.strip() or len(value) > 128:
-        return False
-    try:
-        value.encode("utf-8")
-    except UnicodeEncodeError:
-        return False
-    return True
 
 
 def _validate_observation(observation: dict) -> None:
