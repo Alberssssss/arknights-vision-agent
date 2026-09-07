@@ -12,6 +12,8 @@
 
 ## Task 1: Strict action boundary
 
+Completed and independently reviewed at `57bfd9f`: 56 tests passed. The steps below retain the original test-first execution checklist; all were completed, including follow-up Unicode, integer-limit, and numeric-overflow regression fixes.
+
 **Files:**
 - Create `pyproject.toml` for a package named `arknights-vision-agent`, Python >=3.11, no runtime dependencies, setuptools build backend.
 - Create `src/arknights_vision_agent/__init__.py` with package version `0.1.0`.
@@ -62,7 +64,7 @@ if __name__ == "__main__":
 ### Step 2: Implement the exact contract in small red/green increments
 
 - [ ] Define `ActionValidationError` as the public failure type.
-- [ ] Make `parse_action` require a string no larger than 16,384 UTF-8 bytes; use `json.loads` with `object_pairs_hook` that rejects repeated keys and `parse_constant` that rejects NaN/Infinity. Require a top-level object. Convert expected JSON/Unicode/type failures to `ActionValidationError` without evaluating any text.
+- [ ] Make `parse_action` require a string no larger than 16,384 UTF-8 bytes; use `json.loads` with `object_pairs_hook` that rejects repeated keys and `parse_constant` that rejects NaN/Infinity. Reject float decoding that overflows to a non-finite value so later JSON reports remain serializable. Require a top-level object. Convert expected JSON/Unicode/type failures to `ActionValidationError` without evaluating any text.
 - [ ] Make `validate_action` require plain dictionaries and the exact observation fields from the design. Reject missing/unknown fields, wrong types, empty/whitespace-only identifiers, identifiers over 128 characters, duplicate options, and invalid provenance or screen names.
 - [ ] Validate integers with `type(value) is int`, not `isinstance(value, int)`, so booleans cannot pass. `captured_at_ms`, `now_ms`, and `max_age_ms` are non-negative integers.
 - [ ] Require action identifiers to match the observation before accepting any action. Enforce exact fields per kind. A select action needs one available option and a recruitment/route/event screen; wait needs 1..10,000 ms and a non-terminal screen; stop has no extra fields.

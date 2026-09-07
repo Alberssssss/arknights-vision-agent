@@ -29,7 +29,7 @@ An action contains `run_id`, `observation_id`, and `kind`. `select` additionally
 
 Actions are bound to the observation and run that produced them. For select/wait, a guard rejects mismatched identifiers, future-dated observations, or observations older than a supplied age limit. A stop request may terminate even on a stale or future observation, but must still match run and observation identifiers and pass schema and clock-type checks. This exception permits fail-closed stopping, not a game interaction. The caller supplies `now_ms`, so an offline replay never treats wall-clock time as a recorded timestamp.
 
-JSON parsing is bounded, rejects duplicate keys and non-standard numeric constants, and does not execute model-generated text. Invalid input raises a project-specific validation error with a useful diagnostic, not a guessed action.
+JSON parsing is bounded, rejects duplicate keys, non-standard numeric constants, and floating-point overflow to non-finite values, and does not execute model-generated text. Invalid input raises a project-specific validation error with a useful diagnostic, not a guessed action. Finite parser output keeps later strict-JSON rejection reports serializable.
 
 ## Replay semantics
 

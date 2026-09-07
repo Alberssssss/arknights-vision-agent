@@ -12,7 +12,7 @@
 
 ## Prerequisite
 
-- [ ] Complete specification and code-quality review of the action-boundary task. Import its `ActionValidationError`, `parse_action`, and `validate_action` APIs without duplicating their rules.
+- [x] Complete specification and code-quality review of the action-boundary task. Import its `ActionValidationError`, `parse_action`, and `validate_action` APIs without duplicating their rules.
 
 ## Task 1: Pure replay and results
 
