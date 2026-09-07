@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {"asset_id": "synthetic-a", "path": "synthetic_inventory_assets/a.txt"},
+    {"asset_id": "synthetic-b", "path": "synthetic_inventory_assets/b.txt"},
+    {"asset_id": "synthetic-c", "path": "synthetic_inventory_assets/c.txt"}
+  ]
+}

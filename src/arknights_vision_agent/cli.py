@@ -1,11 +1,19 @@
-"""Command-line entry points for offline replay and preparation reporting."""
+"""Command-line entry points for offline replay and preparation tools."""
 
 import argparse
 import json
 import os
 from pathlib import Path
+import stat
 import sys
 
+from arknights_vision_agent.inventory import (
+    DEFAULT_MAX_FILE_BYTES,
+    DEFAULT_MAX_TOTAL_BYTES,
+    InventoryError,
+    build_inventory,
+    require_inventory_platform,
+)
 from arknights_vision_agent.preparation import (
     PreparationValidationError,
     build_preparation_report,
@@ -46,6 +54,19 @@ def _build_parser() -> argparse.ArgumentParser:
         nargs=3,
         metavar=("TRAIN", "VALIDATION", "TEST"),
     )
+    inventory_parser = commands.add_parser(
+        "inventory",
+        help="hash explicitly selected local files without decoding media",
+    )
+    inventory_parser.add_argument("--request", required=True, type=Path)
+    inventory_parser.add_argument("--media-root", required=True, type=Path)
+    inventory_parser.add_argument("--output", required=True, type=Path)
+    inventory_parser.add_argument(
+        "--max-file-bytes", type=int, default=DEFAULT_MAX_FILE_BYTES
+    )
+    inventory_parser.add_argument(
+        "--max-total-bytes", type=int, default=DEFAULT_MAX_TOTAL_BYTES
+    )
     return parser
 
 
@@ -65,6 +86,30 @@ def _load_object(path: Path, *, max_bytes: int, kind: str) -> dict:
 
 def _load_trace(path: Path) -> dict:
     return _load_object(path, max_bytes=_TRACE_MAX_BYTES, kind="trace")
+
+
+def _load_inventory_request(path: Path) -> dict:
+    require_inventory_platform()
+    try:
+        descriptor = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
+        try:
+            input_file = os.fdopen(descriptor, "rb")
+        except BaseException:
+            os.close(descriptor)
+            raise
+        with input_file:
+            if not stat.S_ISREG(os.fstat(input_file.fileno()).st_mode):
+                raise InventoryError("inventory request must be a regular file")
+            payload = input_file.read(_TRACE_MAX_BYTES + 1)
+    except OSError as error:
+        raise InventoryError("cannot read the inventory request") from error
+    if len(payload) > _TRACE_MAX_BYTES:
+        raise InventoryError("inventory request exceeds the 2 MiB size limit")
+    try:
+        decoded = payload.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise InventoryError("inventory request is not valid UTF-8") from error
+    return load_json_object(decoded, max_bytes=_TRACE_MAX_BYTES)
 
 
 def _render_reports(result: dict) -> tuple[str, str]:
@@ -166,6 +211,29 @@ def _prepare_command(
     return 0
 
 
+def _inventory_command(arguments: argparse.Namespace) -> int:
+    if os.path.lexists(arguments.output):
+        raise _CLIError(f"output path already exists: {arguments.output}")
+    request = _load_inventory_request(arguments.request)
+    report = build_inventory(
+        request,
+        media_root=arguments.media_root,
+        max_file_bytes=arguments.max_file_bytes,
+        max_total_bytes=arguments.max_total_bytes,
+    )
+    rendered = json.dumps(
+        report, allow_nan=False, sort_keys=True, separators=(",", ":")
+    ) + "\n"
+    _write_report_files(arguments.output, {"inventory.json": rendered})
+    print(
+        f"Inventory written to {arguments.output}; "
+        f"{report['summary']['asset_count']} selected assets hashed; "
+        "no media decoded and no training started."
+    )
+    print("Keep real reports private; duplicate candidates require review.")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run the offline command-line interface and return its exit status."""
     arguments = _build_parser().parse_args(argv)
@@ -179,9 +247,17 @@ def main(argv: list[str] | None = None) -> int:
                 arguments.seed,
                 arguments.weights,
             )
+        if arguments.command == "inventory":
+            return _inventory_command(arguments)
     except StrictJSONError as error:
-        kind = "manifest" if arguments.command == "prepare" else "trace"
+        kind = {
+            "replay": "trace",
+            "prepare": "manifest",
+            "inventory": "inventory request",
+        }[arguments.command]
         print(f"error: invalid {kind} JSON: {error}", file=sys.stderr)
+    except InventoryError as error:
+        print(f"error: invalid inventory: {error}", file=sys.stderr)
     except PreparationValidationError as error:
         print(
             f"error: invalid preparation data or configuration: {error}",

@@ -77,6 +77,26 @@ Split weights are approximate ratios across complete leakage groups, so small in
 
 See the [manifest design](docs/superpowers/specs/2026-09-07-demonstration-manifest-design.md), [preparation-report design](docs/superpowers/specs/2026-09-07-preparation-report-design.md), [training-data collection plan](docs/training-data-collection.md), and [human-help queue](HUMAN_HELP.md) for the exact boundary and remaining real-data work.
 
+## Local byte inventory demo
+
+Inventory an explicit selection before decoding or annotation:
+
+```sh
+PYTHONPATH=src python3 -m arknights_vision_agent inventory \
+  --request examples/synthetic_inventory.json \
+  --media-root examples --output work/inventory-demo
+```
+
+This writes one `inventory.json` with byte counts, SHA-256 fingerprints, and exact-byte duplicate candidates. The example contains three synthetic plain-text files, not videos; two match and the third differs. It does not demonstrate real-media quality or training eligibility.
+
+Defaults are 1 GiB per file and 4 GiB total. Override them with integer byte counts using `--max-file-bytes` and `--max-total-bytes`. Each request selects 1..1000 assets; its strict UTF-8 JSON file is limited to 2 MiB, and media-byte reads use chunks no larger than 1 MiB. Empty files and arbitrary bytes are valid. Distinct requested hard-link paths count separately.
+
+The reader requires POSIX descriptor-relative no-follow support. It accepts only regular files and rejects descendant symlinks. The explicitly selected media root (including a root symlink and its ancestors) and output parent are owner-trusted. Choose a new output path: existing files, directories, and live or dangling symlinks are refused before any input is read. There is no force option. Input or hashing failures create no output; a later write failure may retain newly created partial output for inspection.
+
+Source bytes are not intentionally modified, but reading may update access time. No folders are scanned, files copied, media decoded, or training started. Size and before/after file metadata checks reject detectable changes; this is not an immutable snapshot, a hostile-filesystem sandbox, or a wall-clock timeout. Supply stable local originals; later decoding must recheck content identity.
+
+Keep real reports private; relative names, IDs, and hashes can be sensitive, and duplicate candidates require review. Matching bytes do not detect edited/near-duplicate videos, verify rights or labels, merge leakage groups, or prove game performance. Timestamp indexing and label verification remain separate work. See the [exact byte-inventory boundary](docs/superpowers/specs/2026-09-07-byte-inventory-design.md).
+
 ## Development
 
 The offline core targets Python 3.11+ and uses the standard library. It must run without GPU drivers, model weights, MaaFramework, a game account, or network services.

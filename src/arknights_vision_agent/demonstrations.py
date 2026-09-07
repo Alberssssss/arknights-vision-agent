@@ -1,10 +1,10 @@
 """Strict validation for offline demonstration metadata."""
 
 import copy
-import unicodedata
 
 from arknights_vision_agent.actions import ActionValidationError, validate_action
 from arknights_vision_agent.identifiers import is_valid_identifier
+from arknights_vision_agent.media_paths import is_valid_media_path
 
 _MAX_MS = 2**63 - 1
 _MIN_OFFSET = -(2**63)
@@ -50,19 +50,7 @@ def _require_enum(value, allowed, where):
 
 
 def _require_media_path(value, where):
-    if type(value) is not str or not 1 <= len(value) <= 1024:
-        raise ManifestValidationError(f"{where} is invalid")
-    try:
-        value.encode("utf-8")
-    except UnicodeEncodeError as error:
-        raise ManifestValidationError(f"{where} is invalid Unicode") from error
-    if (
-        value.startswith(("/", "~"))
-        or "\\" in value
-        or ":" in value
-        or any(unicodedata.category(character) == "Cc" for character in value)
-        or any(part in ("", ".", "..") for part in value.split("/"))
-    ):
+    if not is_valid_media_path(value):
         raise ManifestValidationError(
             f"{where} is not a literal relative media reference"
         )
