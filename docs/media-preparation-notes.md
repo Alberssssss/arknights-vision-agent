@@ -1,6 +1,6 @@
 # Video input preparation: research and next boundaries
 
-Checked against primary documentation on 2026-09-07. This is preparation research, not an implemented media reader or verified extraction recipe. Neither `ffmpeg` nor `ffprobe` was found on this task's current PATH; no decoder was installed or run, and no private recordings were opened.
+Checked against primary documentation on 2026-09-07. This is preparation research, not a verified extraction recipe. Byte inventory is now implemented under its [separate contract](superpowers/specs/2026-09-07-byte-inventory-design.md); native media indexing/decoding and frame extraction remain unimplemented. Neither `ffmpeg` nor `ffprobe` was found on this task's current PATH; no decoder was installed or run, and no private recordings were opened.
 
 ## Keep three operations separate
 

@@ -10,6 +10,8 @@
 
 ---
 
+**Execution record (2026-09-07):** Task 1 implemented in `8ef2c25`; all 246 tests, compilation, and diff checks passed. Separate specification and final quality/integration reviews passed without findings. Coordinator verified all three real installed commands using a fresh offline wheel and confirmed repeat-output refusal without modification. The step checkboxes below preserve the original plan; this task is not pending reimplementation. See `STATUS.md` for evidence and remaining boundaries.
+
 ## Task 1: Inventory API, command, synthetic example, and documentation
 
 This is one integrated small boundary, implemented by one worker and reviewed before publication. The coordinator provides the complete `2026-09-07-byte-inventory-design.md` specification as task context. Preserve the development branch and unrelated changes. Do not run the command against anything except committed/project-authored synthetic assets or test-owned temporary files.

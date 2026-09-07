@@ -49,6 +49,17 @@ The report is not a media export, rights verification, label audit, or training-
 - [x] Specification review and final integrated quality review passed without findings.
 - [x] Fresh installed-wheel preparation and replay commands verified in isolated Python mode.
 
+## Completed boundary: explicitly selected byte inventory
+
+- [x] Separate strict request and detached validation work before demonstration labels exist.
+- [x] POSIX descriptor-relative reads reject descendant links and nonregular files, enforce byte caps, and detect observed source changes.
+- [x] Deterministic SHA-256/byte-count report flags duplicate candidates without decoding media or promoting examples to training eligibility.
+- [x] Nonblocking regular-file request loading and pre-read existing-output refusal verified through the `inventory` command.
+- [x] Specification review passed; fresh installed inventory/preparation/replay commands verified.
+- [x] Final independent quality/integration review passed without findings.
+
+This is a byte reader, not a video decoder, immutable snapshot, media-rights verifier, or timing/label audit. Real data remains private and has not been accessed. The reviewed [pilot handoff](docs/recording-pilot.md) explains what the owner can supply later.
+
 ## Evidence so far
 
 - Initial remote commit: `626efdade7ec6296214d6bc549662be61c2ca7f5`.
@@ -66,7 +77,10 @@ The report is not a media export, rights verification, label audit, or training-
 - Preparation-report implementation `5928f5c`: coordinator freshly ran all 176 tests, compilation, and diff checks successfully. Specification and quality reviews passed without defects. Tests include exact hash buckets, cross-process determinism, eligibility combinations, ordering/digest stability, and detached outputs. Independent review also checked 10,000 records/groups; this is not evidence of real-media quality or adequate dataset coverage.
 - Preparation CLI `5f004a3`: all 190 tests, compilation, and diff checks passed. Specification review and a final integrated report/CLI quality review passed with no findings. Tests preserve replay behavior and cover exact input limits, failure privacy, no-overwrite behavior, and multiple eligible records counting as one eligible group.
 - A fresh wheel built and installed offline without index/dependencies into `work/preparation-package-hqn3Hw/environment`. Isolated installed preparation and replay demos passed; the 190-test suite also passed in that environment (CLI subprocess tests explicitly select source code). The preparation demo assigned three groups across three partitions but had zero eligible records/groups and all verification flags false. A repeated-output attempt exited 2 without changing the report's SHA-256. Independent final review repeated installation and both real command checks. This is Python 3.13.7 evidence only; Python 3.11/3.12, real media, H20 readiness, and game performance remain unverified.
-- Video-input research is recorded in `docs/media-preparation-notes.md`: byte inventory, native timestamp indexing, and verified frame extraction remain separate future boundaries. Neither `ffmpeg` nor `ffprobe` was found on the task's current PATH; no decoder was installed or run against media.
+- Video-input research is recorded in `docs/media-preparation-notes.md`: byte inventory, native timestamp indexing, and verified frame extraction are separate boundaries. Neither `ffmpeg` nor `ffprobe` was found on the task's current PATH; no decoder was installed or run against media.
+- Byte inventory `8ef2c25`: coordinator freshly ran all 246 tests, compilation, and commit-range/working-tree diff checks successfully. Specification and final independent quality/integration reviews passed without findings. The shared path predicate preserves manifest acceptance; new tests exercise request types/limits, no-follow/FIFO boundaries, streamed caps, mutation and descriptor cleanup, duplicate candidates, failure privacy, and all previous commands. The final reviewer independently checked baseline/shared path acceptance parity across all Unicode codepoints plus type/length/segment cases, repeated the full suite, and verified all three installed commands and unchanged synthetic sources.
+- A fresh wheel built and installed without index/dependencies into `work/inventory-package-aeiXmN/environment` (wheel SHA-256 `26e72c3bbac6848c3d6c8570f6bb0122dd9c8f253c7a881f5b66380c18205019`). Isolated installed inventory, preparation, and replay demos all passed; the 246-test suite also passed in that environment (CLI subprocess tests explicitly select source code). Inventory hashed three synthetic text assets/77 bytes and found one two-file duplicate candidate; only `file_bytes_hashed` was true. Repeated output exited 2 and preserved report SHA-256 `2ab0bd02529781b70a75ef18dc29746caab31fa313fa43afb7fe9cbfb2b20daa`. No real media, model/controller dependencies, or GPU was involved; execution evidence remains Python 3.13.7/macOS only.
+- Reviewed collection packet and next setup-report design basis are in `docs/recording-pilot.md` and `docs/setup-preflight-notes.md`. The latter records only observed current-Mac/interpreter capabilities and selected package metadata; no preflight command, H20 measurement, dependency compatibility lock, or native decoder integration is implied.
 
 ## Not demonstrated
 
@@ -85,8 +99,9 @@ Current focus: setup and training-data preparation, with actual training deferre
 - [x] Implement strict demonstration-manifest validation with synthetic metadata tests.
 - [x] Implement label-eligibility reporting and deterministic leakage-group partitions.
 - [x] Add non-overwriting data-preparation commands and synthetic fixtures.
-- [ ] Implement explicitly selected private-media byte inventory, followed separately by native timestamp indexing and verified frame extraction.
+- [x] Implement explicitly selected private-media byte inventory using synthetic acceptance data.
+- [ ] Implement native timestamp indexing and verified causal frame extraction as separate boundaries.
 - [ ] Prepare gated environment, model, and controller configuration checks without launching training.
 - [ ] Prepare offline policy/evaluation interfaces and reports; do not claim real performance from fixtures.
 
-The exact v1 manifest, metadata-report, and preparation-command boundaries are implemented and reviewed. They do not yet constitute an implemented media pipeline. The next preparation work starts from `docs/media-preparation-notes.md`. See `HUMAN_HELP.md` for real recordings, target scope, and environment access. No actual training job should start automatically.
+The v1 manifest, metadata report, preparation command, and byte inventory are implemented and reviewed but do not yet constitute a complete media pipeline. Next define and implement the bounded offline setup-profile/local-facts report from `docs/setup-preflight-notes.md`, then continue native media indexing preparation from `docs/media-preparation-notes.md`. No actual training job should start automatically. See `HUMAN_HELP.md` for real recordings, target scope, and environment access.

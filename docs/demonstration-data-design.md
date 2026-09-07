@@ -1,6 +1,6 @@
 # Demonstration data: staged contract
 
-This describes the staged offline data pipeline. Strict manifest validation and metadata eligibility/group-partition reporting are implemented as pure APIs and exposed through the offline `prepare` command. Real-media preparation remains follow-on work. It is a reversible continuation of the owner-approved plan. Real recordings and label review remain H02/H03 in `HUMAN_HELP.md`.
+This describes the staged offline data pipeline. Strict manifest validation and metadata eligibility/group-partition reporting are implemented as pure APIs and exposed through the offline `prepare` command. A separate `inventory` command hashes explicitly selected local bytes; native media indexing, extraction, and alignment remain follow-on work. It is a reversible continuation of the owner-approved plan. Real recordings and label review remain H02/H03 in `HUMAN_HELP.md`.
 
 ## What a useful example contains
 
