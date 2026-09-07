@@ -1,0 +1,37 @@
+# Local environments and Python output
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+build/
+dist/
+.coverage
+htmlcov/
+
+# Private or large project material
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+datasets/
+recordings/
+models/
+checkpoints/
+local-config/
+work/
+outputs/
+*.mp4
+*.mkv
+*.mov
+*.safetensors
+*.pt
+*.pth
+
+# Workspaces and OS metadata
+.worktrees/
+.DS_Store
