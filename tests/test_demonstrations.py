@@ -51,6 +51,18 @@ def make_manifest():
     }
 
 
+def make_consistent_records(count):
+    template = make_manifest()["records"][0]
+    records = []
+    for index in range(count):
+        record = copy.deepcopy(template)
+        record["record_id"] = f"record-{index}"
+        record["observation"]["observation_id"] = f"frame-{index}"
+        record["action"]["observation_id"] = f"frame-{index}"
+        records.append(record)
+    return records
+
+
 class ManifestTests(unittest.TestCase):
     def test_returns_detached_validated_copy_without_media(self):
         original = make_manifest()
@@ -197,7 +209,7 @@ class SchemaValidationTests(unittest.TestCase):
         self.assert_invalid(value)
 
         value = make_manifest()
-        value["records"] = [value["records"][0]] * 10001
+        value["records"] = make_consistent_records(10001)
         self.assert_invalid(value)
 
     def test_rejects_invalid_manifest_specific_identifiers(self):
@@ -553,11 +565,15 @@ class WholeManifestValidationTests(unittest.TestCase):
         cases = []
         value = make_manifest()
         record = add_distinct_record(value)
+        record["recording_id"] = "recording-2"
+        record["media"]["path"] = "demo/source-2.mp4"
         record["leakage_group_id"] = "other-group"
         cases.append(value)
 
         value = make_manifest()
         record = add_distinct_record(value)
+        record["recording_id"] = "recording-2"
+        record["media"]["path"] = "demo/source-2.mp4"
         record["observation"]["source"] = "recorded"
         cases.append(value)
 
@@ -565,7 +581,11 @@ class WholeManifestValidationTests(unittest.TestCase):
             with self.subTest(index=index):
                 self.assertFalse(value["records"][1]["usage_permitted"])
                 self.assertEqual("pending", value["records"][1]["label"]["status"])
-                self.assert_second_record_conflict(value)
+                with self.assertRaisesRegex(
+                    ManifestValidationError,
+                    r"record 2 run provenance conflicts with another record",
+                ):
+                    validate_manifest(value)
 
     def test_rejects_recording_provenance_conflicts(self):
         cases = []
@@ -669,15 +689,7 @@ class WholeManifestValidationTests(unittest.TestCase):
 
     def test_accepts_ten_thousand_consistent_records(self):
         value = make_manifest()
-        template = value["records"][0]
-        records = []
-        for index in range(10000):
-            record = copy.deepcopy(template)
-            record["record_id"] = f"record-{index}"
-            record["observation"]["observation_id"] = f"frame-{index}"
-            record["action"]["observation_id"] = f"frame-{index}"
-            records.append(record)
-        value["records"] = records
+        value["records"] = make_consistent_records(10000)
 
         result = validate_manifest(value)
 
