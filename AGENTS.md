@@ -1,12 +1,21 @@
 # Agent working agreement
 
+## Start here in every new Codex session
+
+- Open the actual `arknights-vision-agent` repository root, not a parent folder or another project.
+- Read `HANDOFF.md`, `STATUS.md`, and `HUMAN_HELP.md` before choosing work. Then read the complete spec and plan linked for the first unfinished task. `docs/project-roadmap.md` defines the checkpoints; `docs/continuation-guide.md` explains fresh-clone setup and the portable workflow.
+- Check the actual checkout, branch, working changes, and recent commits. A dated handoff or old unchecked plan box is not stronger evidence than current files and verified results. Do not redo completed implementation merely because an archived plan has unchecked boxes.
+- Desktop conversations, goals, agent names, tool sessions, environment-specific access, installed skills, and ignored `work/` artifacts do not transfer automatically with a Git clone. The owner directions recorded here still apply. Do not assume an old process is alive or an old machine path exists. Recheck the current environment; keep real-device, private-data, GPU, and training gates separate.
+- Use installed skills when available and applicable. If a historical plan names unavailable desktop/plugin tools, follow the equivalent repository workflow in `docs/continuation-guide.md`; do not invent a tool call or falsely claim an independent review.
+- The owner prefers Chinese progress updates. Describe outcomes and limitations in plain language.
+
 ## Scope and execution
 
 - Work only in this repository. The neighboring `ideas` repository is unrelated.
 - The owner approved autonomous, incremental development. Record human-dependent items in `HUMAN_HELP.md` and continue independent work.
 - On 2026-09-07 the owner explicitly deferred actual model training. Focus on setup, demonstration collection/preparation, validation, and evaluation tooling. Do not start pretraining, fine-tuning, optimizer steps, or a paid compute job unless the owner subsequently changes this instruction. "Pretraining preparation" is not authorization to update model weights.
 - Keep code on a development branch until its tests and reviews pass. Do not force-push, rewrite unrelated history, or alter repository access.
-- Read `STATUS.md` and the current plan before starting a new milestone.
+- Keep the original full project goal intact; offline tooling is preparation, not trained-model quality or automatic game completion.
 - Use test-first development, small commits, and independent specification and quality reviews.
 
 ## Safety boundaries
@@ -27,6 +36,12 @@
 
 ## Verification
 
-- Before code exists, the baseline consists only of the initial README; there is no test suite yet.
-- The first implementation plan establishes the test command and records evidence in `STATUS.md`.
+- The initial historical baseline contained only a README. The current offline suite is `PYTHONPATH=src python3 -m unittest discover -s tests -q`; compile with `python3 -m compileall -q src tests` and inspect `git diff --check`.
+- The separately scoped developer media helper has its own suite: `python3 -m unittest discover -s tools/media_runtime -p 'test_*.py' -v`. It is not imported by the application and is not a media-parser sandbox. Current execution evidence is macOS/Python 3.13.7, not a general Windows or H20 certification.
 - Update status with exact checks actually run and unresolved limitations. Do not claim completion from an implementer's report alone.
+
+## Leave a usable handoff
+
+- Before handing off or ending a work session, update `HANDOFF.md` with the first unfinished task, concrete next action, dependencies, and any in-flight operation whose live state was actually checked. Update `STATUS.md` with verified evidence and limitations, and `HUMAN_HELP.md` when an owner-dependent item changes.
+- Preserve useful decisions, interfaces, reproducible commands, and failure explanations in tracked documentation. Do not use chat history as the only project record. Do not export raw conversations, credential stores, private reports, or machine configuration.
+- Keep historical evidence dated and scoped. Verify a commit/push before calling it published; a local commit is not a remote result. Keep the development branch and unrelated work intact. Future agents must inspect actual remote/default-branch state rather than trust a recorded branch hash forever.

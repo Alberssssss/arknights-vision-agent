@@ -6,6 +6,20 @@ An offline-first research project toward an Arknights Integrated Strategies agen
 
 The current phase is setup and training-data preparation. The owner has explicitly deferred actual training; no pretraining or fine-tuning job should start automatically.
 
+## Continue this project in another Codex session
+
+Open this repository's root and start with [AGENTS.md](AGENTS.md),
+[HANDOFF.md](HANDOFF.md), [STATUS.md](STATUS.md), and
+[HUMAN_HELP.md](HUMAN_HELP.md). The [fresh-clone/IDE continuation guide](docs/continuation-guide.md)
+contains baseline checks, portable development/review steps, and local-runtime
+rebuild boundaries; the [CP0–CP10 roadmap](docs/project-roadmap.md) keeps the full
+project objective and acceptance gates visible.
+
+This handoff is stored in Git, so development does not require the old chat.
+Codex desktop sessions/goals, credentials, private material, ignored build products
+and machine configuration do not transfer with a clone. Recheck actual branch
+and environment state; do not infer H20/model/game readiness from the documents.
+
 ## Intended system
 
 ```text

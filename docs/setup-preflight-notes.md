@@ -81,7 +81,7 @@ The full suite ran in the installed environment, but its CLI subprocess tests ex
 | Native media parser | Trusted executable/build and separately specified parser, timestamp, output, and extraction limits |
 | Actual training | A later explicit owner decision; no setup/preflight result overrides the current deferral |
 
-Executable presence cannot populate GPU/device measurements. A successful byte inventory cannot populate video/label/model checks. A valid model ID or syntactically pinned revision cannot establish runtime compatibility. Native-runtime work remains in verification/build preparation: downloaded-source identity checks are not a completed build or decoder validation, and no actual decoding calibration has been completed.
+Executable presence cannot populate GPU/device measurements. A successful byte inventory cannot populate video/label/model checks. A valid model ID or syntactically pinned revision cannot establish runtime compatibility. At the preflight closeout, native-runtime work had reached source/build preparation only. The later [local runtime receipt](media-runtime-calibration.md) now records a completed CPU build and narrow synthetic decoding/timing calibration, separately from preflight. That does not change this command's unmeasured fields or false execution flags, and it does not implement product indexing/extraction or configure another host.
 
 ## Implemented acceptance coverage and limits
 
