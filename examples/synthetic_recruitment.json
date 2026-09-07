@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "run_id": "run-synthetic-demo",
+  "source": "synthetic",
+  "steps": [
+    {
+      "observation": {
+        "run_id": "run-synthetic-demo",
+        "observation_id": "observation-1",
+        "screen": "recruitment",
+        "available_options": ["option-a", "option-b"],
+        "captured_at_ms": 1000,
+        "source": "synthetic"
+      },
+      "action_json": "{\"run_id\":\"run-synthetic-demo\",\"observation_id\":\"observation-1\",\"kind\":\"select\",\"option_id\":\"option-a\"}",
+      "decision_at_ms": 1050
+    },
+    {
+      "observation": {
+        "run_id": "run-synthetic-demo",
+        "observation_id": "observation-2",
+        "screen": "unknown",
+        "available_options": [],
+        "captured_at_ms": 2000,
+        "source": "synthetic"
+      },
+      "action_json": "{\"run_id\":\"run-synthetic-demo\",\"observation_id\":\"observation-2\",\"kind\":\"wait\",\"wait_ms\":250}",
+      "decision_at_ms": 2050
+    },
+    {
+      "observation": {
+        "run_id": "run-synthetic-demo",
+        "observation_id": "observation-3",
+        "screen": "terminal",
+        "available_options": [],
+        "captured_at_ms": 3000,
+        "source": "synthetic"
+      },
+      "action_json": "{\"run_id\":\"run-synthetic-demo\",\"observation_id\":\"observation-3\",\"kind\":\"stop\"}",
+      "decision_at_ms": 3050
+    }
+  ]
+}

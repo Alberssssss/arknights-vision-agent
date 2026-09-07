@@ -1,9 +1,7 @@
 """Strict, offline validation for proposed actions."""
 
-import json
-import math
+from arknights_vision_agent.strict_json import StrictJSONError, load_json_object
 
-_MAX_JSON_NESTING = 100
 _OBSERVATION_KEYS = {
     "run_id",
     "observation_id",
@@ -26,84 +24,12 @@ class ActionValidationError(ValueError):
     """Raised when an action proposal or observation is unsafe to use."""
 
 
-def _reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict:
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise ActionValidationError("JSON contains a duplicate object key")
-        result[key] = value
-    return result
-
-
-def _reject_nonfinite_number(_: str) -> None:
-    raise ActionValidationError("JSON contains a non-finite number")
-
-
-def _parse_finite_float(value: str) -> float:
-    parsed = float(value)
-    if not math.isfinite(parsed):
-        raise ActionValidationError("JSON number exceeds the finite range")
-    return parsed
-
-
-def _is_nested_too_deep(value: object) -> bool:
-    pending = [(value, 1)]
-    while pending:
-        current, depth = pending.pop()
-        if depth > _MAX_JSON_NESTING:
-            return True
-        if type(current) is dict:
-            pending.extend((item, depth + 1) for item in current.values())
-        elif type(current) is list:
-            pending.extend((item, depth + 1) for item in current)
-    return False
-
-
-def _contains_invalid_unicode(value: object) -> bool:
-    pending = [value]
-    while pending:
-        current = pending.pop()
-        if type(current) is str:
-            try:
-                current.encode("utf-8")
-            except UnicodeEncodeError:
-                return True
-        elif type(current) is dict:
-            pending.extend(current.keys())
-            pending.extend(current.values())
-        elif type(current) is list:
-            pending.extend(current)
-    return False
-
-
 def parse_action(payload: str) -> dict:
     """Parse an action proposal from JSON text."""
-    if type(payload) is not str:
-        raise ActionValidationError("action payload must be text")
     try:
-        payload_size = len(payload.encode("utf-8"))
-    except UnicodeEncodeError as error:
-        raise ActionValidationError("action payload is not valid Unicode") from error
-    if payload_size > 16384:
-        raise ActionValidationError("action payload exceeds the size limit")
-    try:
-        parsed = json.loads(
-            payload,
-            object_pairs_hook=_reject_duplicate_keys,
-            parse_constant=_reject_nonfinite_number,
-            parse_float=_parse_finite_float,
-        )
-    except ActionValidationError:
-        raise
-    except (ValueError, RecursionError, TypeError, UnicodeError) as error:
-        raise ActionValidationError("action payload is not valid JSON") from error
-    if type(parsed) is not dict:
-        raise ActionValidationError("action payload must contain a JSON object")
-    if _is_nested_too_deep(parsed):
-        raise ActionValidationError("action payload is nested too deeply")
-    if _contains_invalid_unicode(parsed):
-        raise ActionValidationError("action payload contains invalid Unicode")
-    return parsed
+        return load_json_object(payload, max_bytes=16384)
+    except StrictJSONError as error:
+        raise ActionValidationError(str(error)) from error
 
 
 def _is_valid_id(value: object) -> bool:

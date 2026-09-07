@@ -39,6 +39,19 @@ The initial action vocabulary is deliberately limited to selecting a known menu 
 
 Synthetic fixtures exercise software contracts. They are neither gameplay demonstrations nor evidence that a model can win. A replay is also not a simulator: selecting a different action does not generate an alternate game state.
 
+## Offline replay demo
+
+From the repository root, run the committed generic synthetic trace into a fresh output path:
+
+```sh
+PYTHONPATH=src python3 -m arknights_vision_agent replay \
+  --trace examples/synthetic_recruitment.json --output work/demo-run
+```
+
+This dry run validates recorded observations and proposed action text; it is not a simulator or a live player. It does not wait in real time, generate new game states, contact a model service, or control a game or device. It requires no GPU, model weights, controller dependency, MaaFramework installation, or network access.
+
+The command creates `events.jsonl`, with one attempted action per line, and `summary.json`, with dry-run counts and `game_clear_verified: false`. A blocked action is retained in those reports and makes the command exit nonzero. The command will not overwrite an existing output directory, file, or symbolic link, and it has no force option; choose a new output path for each run.
+
 ## Development
 
 The offline core targets Python 3.11+ and uses the standard library. It must run without GPU drivers, model weights, MaaFramework, a game account, or network services.
