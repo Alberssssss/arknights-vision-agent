@@ -5,6 +5,10 @@ This is not an implemented API, an approved native invocation, a completed
 media index, or permission to access real recordings. No implementation plan
 or native-index code has been started from this proposal.
 
+Later owner direction on 2026-09-08 prioritizes MAA/controller integration
+before this video track. This remains the proposed next *video* boundary,
+not the current first project task; H08 has not been approved.
+
 ## Owner-facing decision
 
 建议首版采用下面的 A 方案：用独立进程读取一段明确选定的短 H.264

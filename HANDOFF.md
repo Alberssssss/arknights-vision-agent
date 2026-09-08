@@ -21,6 +21,13 @@ The initial scope is setup and training-data preparation, not a promise of a
 trained model or successful game clears. Keep the full project goal open. Use
 Chinese for user-facing progress updates.
 
+Latest owner priority, **2026-09-08**: work on MAA/controller integration,
+automatic battle and the eventual full-run loop before the unfinished video
+pipeline. The owner also requested an exact explanation of the existing
+foundation/data methods; see the [implementation walkthrough](docs/implementation-methods.md).
+This priority change is not approval of a specific new SDK design or a connection
+to an unspecified device. Training remains deferred.
+
 ## First actions in a fresh session
 
 1. Read [AGENTS.md](AGENTS.md), [STATUS.md](STATUS.md), and
@@ -80,7 +87,32 @@ decoder or a containment guarantee for arbitrary child processes.
 
 ## First unfinished work and continuation order
 
-### 1. Review the native-index proposal (H08), then specify and implement it
+### 1. Prioritize the controller and game-loop track
+
+First clarify where the game actually runs: host platform and emulator/device.
+Do not infer that the game runs on the development Mac. H04 still covers the
+target, client/capture details and a bounded connection/input test; H01 supplies
+the theme, difficulty, ending and roster needed for any real gameplay claim.
+
+Read the [controller-first research notes](docs/controller-first-notes.md),
+compare an existing MAA automation baseline with a custom MaaFramework control
+path, then present and review a scoped design before writing the new interface
+and implementation plan. A baseline using MAA's own decisions must remain
+distinct from this project's future model policy. Neither a successful API call
+nor a finished task queue is by itself evidence of a game clear.
+
+The proposed acceptance order is explicit target selection and screenshot,
+one approved input with fresh-observation verification, one supervised battle,
+then a finite supervised full-run batch. Fix the coordinate space, deadlines,
+uncertain-outcome stop behavior, outcome evidence and human stop mechanism in
+the design. No live adapter, battle policy or complete game loop exists yet.
+No device contact, model execution or training is authorized merely by reading
+these steps. H07 remains separate for supervised live evaluation.
+
+### 2. Later: review the native-index proposal (H08), then specify and implement it
+
+This is now the later video-processing track, not the first project task.
+The owner has not approved H08 by asking to prioritize MAA/control.
 
 The local CPU build and narrow synthetic calibration have finished. The
 [runtime receipt](docs/media-runtime-calibration.md) retains actual identities,
@@ -118,7 +150,7 @@ rotation, packet reordering or verified frame extraction. Keep GPU/device/model
 imports out of the default path. Use only synthetic media until H02/H03 permit
 real-sample work; this design work does not need those gates to be resolved.
 
-### 2. Implement verified causal frame extraction and sample projection
+### 3. Implement verified causal frame extraction and sample projection
 
 Also **not implemented**. Select actual frames visible before a decision,
 preserve crop/rotation/scale and coordinate transforms, and explicitly map
@@ -126,7 +158,7 @@ media and action clocks with uncertainty. Do not silently round native rational
 timestamps into the v1 millisecond manifest or include future outcome frames.
 Missing or ambiguous evidence stays excluded/unknown rather than fabricated.
 
-### 3. Connect the reviewed pilot, action expansion, and offline evaluation
+### 4. Connect the reviewed pilot, action expansion, and offline evaluation
 
 H02/H03 unlock real sample inspection and label review. Start with the existing
 [private pilot](docs/recording-pilot.md), then extend the menu-only action schema

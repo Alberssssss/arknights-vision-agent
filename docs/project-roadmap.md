@@ -5,6 +5,14 @@ evidence; they are not completion percentages. Current detailed evidence lives
 in [STATUS.md](../STATUS.md), and the immediate next task in
 [HANDOFF.md](../HANDOFF.md).
 
+**Priority update (2026-09-08):** The owner now wants the MAA/controller and
+game-loop track first. Start by clarifying H04 and reviewing the smallest
+controller integration; H01 is needed to fix gameplay acceptance. This advances
+preparation toward CP8/CP9 ahead of further CP3 work, without marking those
+checkpoints complete, resolving H08, waiving live-access/evaluation gates, or
+resuming CP7 training. The checkpoint numbers are dependencies, not a mandatory
+single serial development order.
+
 ## Intended system
 
 Screen/recent video and run history → perception/state → decision policy →

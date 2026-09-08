@@ -8,6 +8,11 @@ Develop a validated Arknights Integrated Strategies learning agent. The goal is 
 
 Current owner direction (2026-09-07): leave actual training for later. Continue setup, pre-training preparation, and a practical training-data collection pipeline. No model-weight updates are authorized by this phase.
 
+Latest priority update (2026-09-08): tackle MAA/controller integration, automatic
+battle and the eventual full-game loop before the unfinished video pipeline.
+This is a change of work order, not a claim that live control is implemented or
+that a particular device/test has been approved. Actual training stays deferred.
+
 ## Completed milestone: offline foundation
 
 - [x] Public repository initialized with an introductory README.
@@ -142,6 +147,15 @@ This completes a current-Mac configuration-report boundary, not target-machine s
 - A separate read-only primary-source check informed the proposal. The coordinator also inspected the load-bearing excerpts, checked the pinned FFmpeg 9.0.1 archive hash and byte-matched eleven selected source/manual files against it. The findings include raw-frame versus formatted/stream timing distinctions, descriptor URL semantics, selection after input probing, crop/matrix representation, inherited report-file settings, and exit-zero limitations. Web-tool attempts yielded no usable text; current-online agreement is not claimed. Raw machine-local evidence remains ignored.
 - No new decoder invocation or synthetic media calibration was run for this design exploration. The proposed descriptor/cropping/output policy, nonzero/negative/sub-millisecond timing and geometry cases still require their own acceptance. The complete native-index product specification, implementation plan, API and causal extractor remain absent; the proposal is not a dataset or readiness result.
 
+### Controller-first priority and methods explanation (2026-09-08)
+
+- The owner asked to tackle MAA/control and the full-game loop before the unfinished video pipeline, and requested an exact explanation of the existing foundation/data methods. The [implementation walkthrough](docs/implementation-methods.md) distinguishes current source behavior from the proposed media pipeline. No application, test, runner or dependency implementation changed in this documentation step.
+- The [controller-first notes](docs/controller-first-notes.md) compare an existing MAA automation baseline with a future custom-policy MaaFramework path. The coordinator independently read six official MaaAssistantArknights files at fixed commit `e523b2038c6790f5f45d95c2e1de84c3450cc357`, checked their returned Git blob identities and inspected the API/task/queue/settlement excerpts. Source research is not SDK loading, binary compatibility, device contact, or game-outcome evidence.
+- H04's actual game platform/device remains unspecified, and H01 is still needed for gameplay acceptance. A controller design/plan and live adapter remain unimplemented; selecting a work priority did not select or approve an exact integration. H08 remains a later video decision. No private recordings, device operations, model inference or training were performed for this research/documentation step.
+- Fresh coordinator verification caught a README text-contract regression; restoring the explicit training-deferral wording passed its targeted test. The subsequent full application suite passed all 307 tests in 4.981s, and the separate developer-helper suite passed all 12 tests in 10.239s. Compilation of `src`, `tests` and `tools/media_runtime`, diff checks, and comparison of source/tests/helper/dependency files with `4544fd2` passed. These are CPython 3.13.7/current-Mac checks, not controller, video-product, cross-platform or game verification.
+- The nine-document change set contains no implementation or new dependency files. All 131 local links across 35 Markdown documents resolved; a targeted private-path/key-pattern check of the nine changed documents found no matches. This is a limited publication check, not a comprehensive privacy or security audit.
+- Separate foundation factual/specification, selected MAA source-fact, and final documentation-quality reviews passed after identifier-uniqueness, screenshot-binding and priority-text corrections. These reviews cover the documentation and cited source boundaries, not approval or validation of a new implementation or live operation.
+
 ## Not demonstrated
 
 - No model has been trained or evaluated.
@@ -152,7 +166,8 @@ This completes a current-Mac configuration-report boundary, not target-machine s
 
 ## Next independent work
 
-Current focus: setup and training-data preparation, with actual training deferred.
+Current focus: controller-first research/design and setup, with the video/data
+pipeline retained as a later track and actual training deferred.
 
 - [x] Define a practical collection pilot and verify relevant MAA/MaaFramework recording limitations.
 - [x] Review the manifest design for causal clocks, label provenance, safe references, and whole-group splits.
@@ -165,9 +180,10 @@ Current focus: setup and training-data preparation, with actual training deferre
 - [x] Independently review the runtime receipt and portable handoff package.
 - [x] Validate fresh local and GitHub-default-branch clones and publish the portable handoff to the default entry and development branch.
 - [x] Retain and independently review the three developer-helper close-failure regressions; verify the unchanged runner/application boundary.
+- [ ] Clarify the H04 game environment and H01 gameplay target; review a scoped controller-first design, then its implementation plan and test-first adapter work.
 - [ ] Resolve H08 design-scope confirmation and finalize the complete native-index specification/plan.
 - [ ] Implement native timestamp indexing and verified causal frame extraction as separate boundaries.
 - [ ] Continue separately gated target-environment, model-snapshot/dependency, and controller integration checks without launching training.
 - [ ] Prepare offline policy/evaluation interfaces and reports; do not claim real performance from fixtures.
 
-The v1 manifest, metadata report, preparation command, byte inventory, and setup-preflight report are implemented and reviewed but do not constitute a complete media pipeline or a model/controller runtime. The local CPU runtime experiment is measured, not a product decoder interface. The portable handoff has passed a genuine GitHub-default-branch clone check, and the helper-only regression follow-up is reviewed. Next, resolve H08 and finalize/review the native timestamp-index specification/plan before test-first implementation; causal frame extraction remains a later separate boundary. [HANDOFF.md](HANDOFF.md) gives the concrete continuation order and [the roadmap](docs/project-roadmap.md) retains the full goal. Existing independent work may continue while the design confirmation waits, but no new native-index interface has been approved. Target/model/controller readiness still needs its own evidence and appropriate access. No actual training job should start automatically. See `HUMAN_HELP.md` for the pending decisions and access gates.
+The v1 manifest, metadata report, preparation command, byte inventory, and setup-preflight report are implemented and reviewed but do not constitute a complete media pipeline or a model/controller runtime. The local CPU runtime experiment is measured, not a product decoder interface. The portable handoff has passed a genuine GitHub-default-branch clone check, and the helper-only regression follow-up is reviewed. The next project task is now the controller-first track: clarify the actual game environment and review the smallest controlled integration before implementation. H08 and the native index/extractor remain later, separate work. [HANDOFF.md](HANDOFF.md) gives the concrete continuation order and [the roadmap](docs/project-roadmap.md) retains the full goal. Target/model/controller readiness still needs its own evidence and appropriate access. Existing MAA automation must not be counted as learned-model performance. No actual training job should start automatically. See `HUMAN_HELP.md` for the pending decisions and access gates.

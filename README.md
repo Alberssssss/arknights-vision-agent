@@ -4,7 +4,7 @@ An offline-first research project toward an Arknights Integrated Strategies agen
 
 **This is not a finished game-playing bot.** No model training, real-device control, or game clear has been demonstrated by this repository. See [STATUS.md](STATUS.md) for checks actually completed and [HUMAN_HELP.md](HUMAN_HELP.md) for items awaiting the owner.
 
-The current phase is setup and training-data preparation. The owner has explicitly deferred actual training; no pretraining or fine-tuning job should start automatically.
+The current phase is setup, controller-integration preparation, and training-data preparation. On 2026-09-08 the owner prioritized MAA/control and the eventual game loop before the unfinished video pipeline. The owner has explicitly deferred actual training; no pretraining or fine-tuning job should start automatically.
 
 ## Continue this project in another Codex session
 
@@ -15,7 +15,13 @@ contains baseline checks, portable development/review steps, and local-runtime
 rebuild boundaries; the [CP0–CP10 roadmap](docs/project-roadmap.md) keeps the full
 project objective and acceptance gates visible.
 
-The next video-processing increment is described in the
+The immediate continuation is to clarify the target game environment and review
+the controller-first approach in [HANDOFF.md](HANDOFF.md). No real controller,
+automatic battle, or full-game loop has been implemented by this reprioritization.
+The [implementation walkthrough](docs/implementation-methods.md) explains the
+existing code and the still-proposed video pipeline.
+
+The later video-processing increment is described in the
 [native-index proposal](docs/native-index-proposal.md), awaiting H08 design-scope
 confirmation. It is not yet a native-indexing or frame-extraction capability.
 
