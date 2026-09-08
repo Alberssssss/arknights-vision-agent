@@ -32,8 +32,9 @@ git remote -v
 
 When network access to the intended repository is available, inspect the actual
 remote/default branch as well. The development line at the initial handoff is
-`codex/offline-foundation`; the reviewed handoff baseline is intended to be
-available on `main` too. Do not assume either ref remains the newest forever.
+`codex/offline-foundation`; on 2026-09-08 the reviewed handoff checkpoint
+`bb15e44` was published to both that branch and the default `main` entry.
+Do not assume either ref remains the newest forever.
 On a clean new clone, fetch and inspect before selecting a development branch.
 On an existing dirty checkout, preserve changes and do not switch/reset blindly.
 No force push, history rewrite or repository-access change is part of resuming.

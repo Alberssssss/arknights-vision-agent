@@ -1,6 +1,6 @@
 # Project handoff — read before continuing
 
-Snapshot prepared: **2026-09-07**. This file is the starting point for another
+Snapshot updated: **2026-09-08**. This file is the starting point for another
 Codex session, including an IDE session with no access to the old conversation.
 It records project facts and the next work, not a transferable running session.
 
@@ -36,9 +36,17 @@ Chinese for user-facing progress updates.
    Do not silently replace missing real data or measurements with synthetic proof.
 
 The active development line at this handoff is `codex/offline-foundation`.
-The reviewed baseline is being made available from the default `main` entry as
-well; verify actual remote refs after cloning. A handoff document cannot attest
-to future branch state. Never reset an existing dirty checkout to match it.
+The reviewed portable-handoff checkpoint `bb15e44` was published to both that
+branch and the default `main` entry on 2026-09-08. A subsequent remote lookup
+confirmed both refs and the default branch. Verify actual refs after cloning;
+a handoff document cannot attest to future branch state. Never reset an existing
+dirty checkout to match it.
+
+A genuine GitHub clone without a branch argument selected `main` at that
+checkpoint and passed the source baseline, developer-helper suite and all four
+synthetic CLI examples. This was a new checkout on the same Mac, not a newly
+launched Codex/VS Code client or a test on another operating system or GPU host.
+See the dated publication evidence in [STATUS.md](STATUS.md).
 
 ## What is already implemented
 
