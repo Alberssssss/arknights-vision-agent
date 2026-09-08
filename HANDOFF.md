@@ -72,13 +72,15 @@ Python 3.11/3.12, native Windows, Linux/H20, real media, and real-game behavior
 still require their own checks.
 
 The developer-only process helper is retained in
-[`tools/media_runtime`](tools/media_runtime/README.md), with nine real-process
-tests. It bounds trusted local experiment commands; it is not a product decoder
-or a containment guarantee for arbitrary child processes.
+[`tools/media_runtime`](tools/media_runtime/README.md), now with 12 real-process
+tests. The three close-failure regressions were retained on 2026-09-08 at
+reviewed checkpoint `5e5abf8`; the runner itself and application code did not
+change. It bounds trusted local experiment commands; it is not a product
+decoder or a containment guarantee for arbitrary child processes.
 
 ## First unfinished work and continuation order
 
-### 1. Specify native timestamp indexing, then implement it test-first
+### 1. Review the native-index proposal (H08), then specify and implement it
 
 The local CPU build and narrow synthetic calibration have finished. The
 [runtime receipt](docs/media-runtime-calibration.md) retains actual identities,
@@ -89,14 +91,24 @@ unchecked boxes. Recheck artifacts before using them on the original host; a
 fresh clone has no decoder binary and must rebuild/revalidate its local runtime
 before native execution. The receipt is not a transferable running environment.
 
-The native-index product specification, implementation plan and API **do not
-exist yet**. The concrete next action is to write and independently review that
-design and file-by-file plan, using the
+The source-informed [native-index proposal](docs/native-index-proposal.md) now
+records alternatives, the recommended narrow subprocess boundary, exact-source
+pitfalls and proposed acceptance work. **H08 awaits the owner's design-scope
+confirmation** under the brainstorming review workflow. The proposal is not an
+implemented API, approved native invocation or permission to use real data.
+
+The complete native-index product specification, implementation plan and API
+**do not exist yet**. After H08, the concrete next action is to finalize and
+independently review that specification and file-by-file plan, using the
 [media preparation notes](docs/media-preparation-notes.md),
 [runtime design](docs/superpowers/specs/2026-09-07-media-runtime-design.md),
 [runtime plan](docs/superpowers/plans/2026-09-07-media-runtime.md), and
 [byte-inventory contract](docs/superpowers/specs/2026-09-07-byte-inventory-design.md).
-Then add failing acceptance tests before product implementation.
+Then add failing acceptance tests before product implementation. Do not treat
+the proposed flags/limits as execution-tested, or the source review as clean-EOF,
+orientation or causal-extraction evidence. The already planned helper regression
+follow-up was completed while this new design decision waited; do not redo it
+as a substitute for resolving the next boundary.
 
 Define trusted executable identity, explicit selected local input, stream
 selection, file identity rechecks, process/output/frame/dimension limits, error
@@ -154,10 +166,11 @@ controller execution, recovery, and real-game evaluation remain future work.
 
 ## Human dependencies and what does not transfer
 
-H01–H07 are tracked in [HUMAN_HELP.md](HUMAN_HELP.md): target scope, private
+H01–H08 are tracked in [HUMAN_HELP.md](HUMAN_HELP.md): target scope, private
 recordings, label review, limited device testing, H20 access, license choice, and
-supervised live evaluation. Do not put credentials or recordings in that public
-queue. H05 access does not authorize CP7 training.
+supervised live evaluation, plus confirmation of the next native-index proposal.
+Do not put credentials or recordings in that public queue. H05 access and H08
+design confirmation do not authorize CP7 training or other separate access gates.
 
 Git transfers the code, these documents, synthetic examples, and committed
 tests. It does not transfer the old Codex goal/scheduler, chat window, model

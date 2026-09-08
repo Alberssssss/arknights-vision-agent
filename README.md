@@ -15,6 +15,10 @@ contains baseline checks, portable development/review steps, and local-runtime
 rebuild boundaries; the [CP0–CP10 roadmap](docs/project-roadmap.md) keeps the full
 project objective and acceptance gates visible.
 
+The next video-processing increment is described in the
+[native-index proposal](docs/native-index-proposal.md), awaiting H08 design-scope
+confirmation. It is not yet a native-indexing or frame-extraction capability.
+
 This handoff is stored in Git, so development does not require the old chat.
 Codex desktop sessions/goals, credentials, private material, ignored build products
 and machine configuration do not transfer with a clone. Recheck actual branch

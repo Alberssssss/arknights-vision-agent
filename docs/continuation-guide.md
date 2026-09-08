@@ -67,8 +67,10 @@ The separately scoped local media-experiment helper can be checked with:
 python3 -m unittest discover -s tools/media_runtime -p 'test_*.py' -v
 ```
 
-Its nine tests create real, bounded local child processes, including POSIX fork
-and process-group cases. They are not pure parsing tests and do not certify
+Its twelve tests create real, bounded local child processes, including POSIX fork,
+process-group and close-failure cases. The original experiment used nine tests;
+three additional regressions were retained on 2026-09-08. These are not pure
+parsing tests and do not certify
 cross-platform behavior, arbitrary process containment, a decoder or a GPU.
 Read [its scope](../tools/media_runtime/README.md) before use.
 

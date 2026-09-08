@@ -13,13 +13,21 @@ Run the separate suite from the repository root:
 python3 -m unittest discover -s tools/media_runtime -p 'test_*.py' -v
 ```
 
-There are nine tests, including real local child processes, a termination-resistant
+There are now twelve tests, including real local child processes, a termination-resistant
 leader, ten inherited-pipe repetitions, and injected initialization/signalling
-failures. Test fallbacks clean up their own children after assertions. Actual
+and close failures. Test fallbacks clean up their own children after assertions. Actual
 verification is CPython 3.13.7/macOS arm64, not native Windows or Linux/H20.
-Three additional close-failure scenarios were independently exercised during
-review but are not permanent tests in this nine-test suite; retaining them as
-regressions is an explicit nonblocking follow-up recorded in the design.
+
+The original experiment used nine permanent tests. On 2026-09-08 the three
+previously one-off close-failure scenarios became permanent regressions:
+selector close failure, stdout close failure, and both together. They exercise
+real children and resources, inject an error after the actual close, and assert
+later cleanup and the retained exception identity/order before test fallback.
+This does not claim that a resource whose actual OS close fails is always closed.
+Both independent reviews and deliberate faulty-cleanup checks passed; the
+[follow-up plan](../../docs/superpowers/plans/2026-09-08-media-helper-close-regressions.md)
+and [status](../../STATUS.md) retain exact evidence. The runner bytes did not
+change; historical original-test hashes/counts remain in the dated receipt.
 
 For explicitly approved developer-controlled commands, `run(argv, timeout=...,
 output_limit=..., cwd=..., env=...)` uses argument lists without a shell by

@@ -49,6 +49,9 @@ Its [receipt](media-runtime-calibration.md) records the completed local build,
 variable presentation intervals and observed B pictures. It did not test
 packet-level reordering, nonzero/negative origins, sub-millisecond timing or
 orientation. CP3 remains incomplete; specifying the product index is next.
+The [native-index proposal](native-index-proposal.md) now records that next
+boundary and awaits H08 design-scope confirmation; no new product index or
+additional native calibration is implied.
 
 ## Data acquisition and pilot
 

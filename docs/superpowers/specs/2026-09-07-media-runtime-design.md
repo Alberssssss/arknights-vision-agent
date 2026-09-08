@@ -151,10 +151,16 @@ cleanup; they do not reap on behalf of the assertions. Independent specification
 re-review passed with all nine tests in 9.906 seconds. Subsequent independent
 quality review passed with all nine tests in 9.916 seconds and three additional
 real-child checks for selector/stdout close failures and their combination.
-Those diagnostics verified later cleanup and retained errors; making them
-permanent regressions is a nonblocking follow-up for the helper. The limited
+Those diagnostics verified later cleanup and retained errors; at that checkpoint,
+making them permanent regressions was a nonblocking follow-up for the helper. The limited
 local build may proceed. This is local evidence, not a claim
 about all operating systems or arbitrary detached/privileged descendants.
+
+**Follow-up (2026-09-08):** The three close-failure scenarios are now permanent
+tests, bringing the developer-helper suite to twelve. The runner was unchanged.
+The [follow-up plan](../plans/2026-09-08-media-helper-close-regressions.md) and
+`STATUS.md` record the independent reviews and deliberately faulty-cleanup
+checks. The nine-test counts above remain the original experiment's evidence.
 
 ## Acceptance evidence
 

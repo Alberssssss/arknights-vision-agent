@@ -43,3 +43,11 @@ Proposed initial scope: an owner-selected short, self-contained H.264 MP4/MOV re
 Synthetic calibration should cover visibly distinct frames with variable intervals, cutoffs on/between frame timestamps, nonzero/negative origins, B-frame reordering, and identical coded pixels with identity/90-degree display transforms. Inspect the resulting files: intended generator timestamps are not evidence that a muxer preserved them.
 
 Before implementation, fix the trusted executable/build requirements, supported timestamp/orientation cases, input/output/process limits, clock-origin and uncertainty rules, and the verified-frame-to-manifest representation. Real samples remain H02/H03; no GPU access is needed merely to design and test these offline boundaries.
+
+## Next proposal (2026-09-08)
+
+The [native-index proposal](native-index-proposal.md) records the recommended
+narrow boundary and newly source-inspected timing, descriptor, cropping,
+display-matrix and completeness pitfalls. It awaits H08 design-scope confirmation.
+No new native invocation, product indexing, frame extraction or real-data
+acceptance is claimed by that proposal.

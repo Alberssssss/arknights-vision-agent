@@ -37,7 +37,7 @@
 ## Verification
 
 - The initial historical baseline contained only a README. The current offline suite is `PYTHONPATH=src python3 -m unittest discover -s tests -q`; compile with `python3 -m compileall -q src tests` and inspect `git diff --check`.
-- The separately scoped developer media helper has its own suite: `python3 -m unittest discover -s tools/media_runtime -p 'test_*.py' -v`. It is not imported by the application and is not a media-parser sandbox. Current execution evidence is macOS/Python 3.13.7, not a general Windows or H20 certification.
+- The separately scoped developer media helper has its own suite: `python3 -m unittest discover -s tools/media_runtime -p 'test_*.py' -v`. It currently contains 12 tests; the original runtime experiment used nine. It is not imported by the application and is not a media-parser sandbox. Current execution evidence is macOS/Python 3.13.7, not a general Windows or H20 certification.
 - Update status with exact checks actually run and unresolved limitations. Do not claim completion from an implementer's report alone.
 
 ## Leave a usable handoff
