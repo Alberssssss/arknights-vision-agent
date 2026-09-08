@@ -6,7 +6,7 @@ import subprocess
 import sys
 import time
 import unittest
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 from unittest.mock import patch
 
 import process_runner
@@ -40,6 +40,55 @@ class ProcessRunnerTests(unittest.TestCase):
                     finally:
                         child.stdout.close()
                         child.stderr.close()
+
+    @contextmanager
+    def track_close_failures(self, *, selector_failure=None, stdout_failure=None):
+        selectors = []
+        selector_closers = []
+        original_selector = process_runner.selectors.DefaultSelector
+        with self.track_real_children() as children:
+            try:
+                with ExitStack() as patches:
+                    tracked_popen = process_runner.subprocess.Popen
+
+                    def create_selector(*args, **kwargs):
+                        selector = original_selector(*args, **kwargs)
+                        selectors.append(selector)
+                        real_close = selector.close
+                        selector_closers.append(real_close)
+                        if selector_failure is not None:
+                            def fail_close():
+                                real_close()
+                                raise selector_failure
+
+                            patches.enter_context(
+                                patch.object(selector, "close", side_effect=fail_close))
+                        return selector
+
+                    def create_child(*args, **kwargs):
+                        child = tracked_popen(*args, **kwargs)
+                        if stdout_failure is not None:
+                            real_close = child.stdout.close
+
+                            def fail_close():
+                                real_close()
+                                raise stdout_failure
+
+                            patches.enter_context(
+                                patch.object(child.stdout, "close", side_effect=fail_close))
+                        return child
+
+                    patches.enter_context(patch(
+                        "process_runner.selectors.DefaultSelector",
+                        side_effect=create_selector,
+                    ))
+                    patches.enter_context(patch(
+                        "process_runner.subprocess.Popen", side_effect=create_child,
+                    ))
+                    yield children, selectors
+            finally:
+                for close in selector_closers:
+                    close()
 
     def assert_reaped_and_closed(self, child):
         # Do not poll or wait here: that could reap a child on the runner's behalf.
@@ -143,6 +192,48 @@ class ProcessRunnerTests(unittest.TestCase):
             self.assert_reaped_and_closed(children[0])
             self.assertIsInstance(caught.exception, BaseExceptionGroup)
             self.assertEqual(caught.exception.exceptions, (term_failure, kill_failure))
+
+    def test_selector_close_failure_still_closes_pipes(self):
+        failure = OSError("injected selector close failure")
+        with self.track_close_failures(
+                selector_failure=failure) as (children, selectors):
+            with self.assertRaises(BaseException) as caught:
+                self.execute("import time; time.sleep(20)", timeout=0.1)
+            self.assertEqual(len(children), 1)
+            self.assertEqual(len(selectors), 1)
+            self.assert_reaped_and_closed(children[0])
+            self.assertIsNone(selectors[0].get_map())
+            self.assertIs(caught.exception, failure)
+
+    def test_stdout_close_failure_still_closes_stderr(self):
+        failure = OSError("injected stdout close failure")
+        with self.track_close_failures(
+                stdout_failure=failure) as (children, selectors):
+            with self.assertRaises(BaseException) as caught:
+                self.execute("import time; time.sleep(20)", timeout=0.1)
+            self.assertEqual(len(children), 1)
+            self.assertEqual(len(selectors), 1)
+            self.assert_reaped_and_closed(children[0])
+            self.assertIsNone(selectors[0].get_map())
+            self.assertIs(caught.exception, failure)
+
+    def test_combined_close_failures_preserve_errors(self):
+        selector_failure = OSError("injected selector close failure")
+        stdout_failure = OSError("injected stdout close failure")
+        with self.track_close_failures(
+                selector_failure=selector_failure,
+                stdout_failure=stdout_failure) as (children, selectors):
+            with self.assertRaises(BaseException) as caught:
+                self.execute("import time; time.sleep(20)", timeout=0.1)
+            self.assertEqual(len(children), 1)
+            self.assertEqual(len(selectors), 1)
+            self.assert_reaped_and_closed(children[0])
+            self.assertIsNone(selectors[0].get_map())
+            self.assertIsInstance(caught.exception, BaseExceptionGroup)
+            self.assertEqual(
+                caught.exception.exceptions,
+                (selector_failure, stdout_failure),
+            )
 
 
 if __name__ == "__main__":
