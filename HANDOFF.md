@@ -29,9 +29,11 @@ This priority change is not approval of a specific new SDK design or a connectio
 to an unspecified device. Training remains deferred.
 
 Owner-provided target, **2026-09-09**: a Windows PC running a MuMu Android
-emulator. Do not ask for the platform/emulator again or infer a specific MuMu
-release. Exact versions, existing MAA connection status and the remaining H04
-details are still unknown; no Windows/device access has been performed.
+emulator. The owner subsequently reported that their existing MAA connects to
+MuMu normally. Do not ask for the platform/emulator or that connection status
+again, or infer a specific MuMu release. This is an owner report, not this
+project's connection test. Exact versions and the remaining H04 details are
+still unknown; no Windows/device access has been performed by this project.
 
 ## First actions in a fresh session
 
@@ -94,13 +96,16 @@ decoder or a containment guarantee for arbitrary child processes.
 
 ### 1. Prioritize the controller and game-loop track
 
-The owner confirmed Windows PC + MuMu Android emulator on 2026-09-09. The next
-question is whether MAA on that Windows PC already connects to MuMu successfully.
-Then collect the exact MuMu/MAA releases, explicitly selected instance and
-client/capture details needed for the scoped design. Do not silently assume
-MuMu 12, an example port/path, or a particular instance. H04 remains partly
-answered and still needs an agreed bounded connection/input-test scope; H01
-supplies the theme, difficulty, ending and roster for any real gameplay claim.
+The owner confirmed Windows PC + MuMu Android emulator and reported that their
+existing MAA connects successfully on 2026-09-09. The next action is to present
+the proposed Windows-local minimum integration in the controller notes for
+design-scope confirmation, not repeat the connection question or start an SDK.
+The proposal is not yet approved. Collect the exact MuMu/MAA releases,
+explicitly selected instance and client/capture details before fixing the
+version-specific contract and attempting any authorized calibration. Do not
+silently assume MuMu 12, an example port/path, or a particular instance. H04
+remains partly answered and still needs an agreed bounded connection/input-test
+scope; H01 supplies the theme, difficulty, ending and roster for gameplay claims.
 
 Read the [controller-first research notes](docs/controller-first-notes.md),
 compare an existing MAA automation baseline with a custom MaaFramework control
@@ -113,7 +118,12 @@ The proposed acceptance order is explicit target selection and screenshot,
 one approved input with fresh-observation verification, one supervised battle,
 then a finite supervised full-run batch. Fix the coordinate space, deadlines,
 uncertain-outcome stop behavior, outcome evidence and human stop mechanism in
-the design. No live adapter, battle policy or complete game loop exists yet.
+the design. The first proposed delivery stops after the single-input calibration;
+it neither starts a Roguelike task nor maps the existing abstract `select`
+actions to real coordinates. Stop means stop further project requests, not pause
+the game or guarantee cancellation of an already submitted native input. Do not
+claim automatic cross-process exclusivity with the existing MAA GUI.
+No live adapter, battle policy or complete game loop exists yet.
 No device contact, model execution or training is authorized merely by reading
 these steps. H07 remains separate for supervised live evaluation.
 

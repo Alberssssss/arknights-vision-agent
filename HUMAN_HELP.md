@@ -9,17 +9,19 @@ can be fixed. H08 remains a later video-design decision, not a blocker to
 controller research. Training remains deferred.
 
 Owner confirmation, **2026-09-09**: the game runs on a **Windows PC with a MuMu
-Android emulator**. The exact MuMu release and existing MAA installation/
-connection status are not yet known. This is owner-provided information, not
-an observed connection or approval to contact the device. The next question is
-whether MAA on that Windows PC already connects to MuMu successfully.
+Android emulator**, and the owner reports that their existing MAA connects to
+MuMu normally. These are owner-provided facts, not a connection observed by this
+project or approval to contact the device. Do not repeat those questions. The
+next decision is review of the proposed Windows-local minimum integration in
+the [controller notes](docs/controller-first-notes.md); exact releases and the
+remaining setup/test scope still need to be supplied before live calibration.
 
 | ID | Needed from the owner | What it unlocks | Work continuing meanwhile | Status |
 | --- | --- | --- | --- | --- |
 | H01 | First Integrated Strategies theme, difficulty, intended ending, and representative roster | Real acceptance criteria and a relevant baseline | Generic observation/action contracts and synthetic replay | Awaiting owner |
 | H02 | A small representative set of recordings you are entitled to use, stored privately; indicate whether they are edited and whether input logs exist | Dataset inspection, real perception tests, and action-label audit | Data schemas, validators, split rules, and review workflow | Awaiting owner |
 | H03 | Review a small sample of proposed action labels and explain ambiguous gameplay decisions | Trustworthy supervision and correction examples | Label provenance and confidence tracking | Awaiting sample and reviewer |
-| H04 | Windows PC + MuMu confirmed by the owner. Still needed: existing MAA connection status, exact MuMu/MAA versions, explicitly selected instance, client language, capture resolution, and agreed bounded connection/input-test scope | Real controller smoke tests and latency measurements | Replay backend and adapter contract tests; no device contact | Partially answered; remaining setup details and test scope await owner |
+| H04 | Windows PC + MuMu and working existing MAA connection reported by the owner. Still needed: minimum-integration design review, exact MuMu/MAA versions, explicitly selected instance, client language, capture resolution, and agreed bounded connection/input-test scope | Real controller smoke tests and latency measurements | Existing replay backend and proposed adapter contract/acceptance design; no live adapter or device contact | Partially answered; design confirmation, remaining setup details and test scope await owner |
 | H05 | When ready: an approved way to access the H20 machine and available storage; configure credentials privately. A training budget/launch decision belongs to the later training phase | Approved environment/model preflight; actual training remains separately deferred | Configuration validation, offline data preparation, environment documentation | Machine access awaiting owner; training deferred by owner |
 | H06 | Licensing choice before a broader code release or reuse policy is announced | An explicit repository license | Development continues without inventing a license | Awaiting owner |
 | H07 | Approval for a fixed, supervised live-game evaluation batch and its stop conditions | Evidence of real action execution and run completion | Offline regression tests, failure classification, reporting | Awaiting offline readiness and owner |
@@ -27,7 +29,7 @@ whether MAA on that Windows PC already connects to MuMu successfully.
 
 ## How to help later
 
-Actual model training is explicitly deferred by the owner as of 2026-09-07. There is no need to arrange a training run now. For the controller-first track, first clarify whether the Windows PC already has MAA working with MuMu; then collect the exact releases and remaining H04 details without re-asking the confirmed platform/emulator. H01 supplies the gameplay target. A bounded H04 test still needs its own agreed scope; H02 remains the later private recording pilot.
+Actual model training is explicitly deferred by the owner as of 2026-09-07. There is no need to arrange a training run now. For the controller-first track, review the proposed Windows-local minimum integration: explicitly selected connection, a fresh screenshot, and one approved menu input with a new screenshot to check the effect. Existing MAA connectivity is already owner-confirmed. Exact releases and remaining H04 configuration can be supplied privately when specifying and testing the adapter; do not re-ask the platform/emulator or working-connection question. Design agreement is not live-test permission. H01 supplies the later gameplay target, and a bounded H04 test still needs its own agreed scope; H02 remains the later private recording pilot.
 
 For H08, read the short Chinese decision paragraph at the start of the proposal.
 You can reply "H08：同意先按 A 方案做离线视频索引" or describe a change to the

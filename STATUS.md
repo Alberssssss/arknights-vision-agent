@@ -14,9 +14,11 @@ This is a change of work order, not a claim that live control is implemented or
 that a particular device/test has been approved. Actual training stays deferred.
 
 Target clarification (2026-09-09): the owner confirmed a Windows PC running a
-MuMu Android emulator. H04 is partly answered; exact releases, existing MAA
-connection status, instance/capture details and bounded-test scope remain open.
-The project has not observed or connected to that environment.
+MuMu Android emulator and subsequently reported that their existing MAA connects
+to it normally. H04 is partly answered; minimum-integration design confirmation,
+exact releases, instance/capture details and bounded-test scope remain open.
+The project has not observed or connected to that environment; the reported
+working MAA connection is not this project's adapter verification.
 
 ## Completed milestone: offline foundation
 
@@ -163,12 +165,23 @@ This completes a current-Mac configuration-report boundary, not target-machine s
 
 ### Owner-confirmed Windows/MuMu target (2026-09-09)
 
-- The owner identified the platform as a Windows PC and the emulator as MuMu. This records the supplied environment description, not a verified version, installed MAA instance, successful connection or compatibility result.
-- The next owner question is whether MAA on that Windows PC already connects to MuMu. Exact MuMu/MAA releases and the remaining H04 setup/test details stay open; platform confirmation does not approve either proposed controller route or a live operation.
+- At this earlier clarification, the owner identified the platform as a Windows PC and the emulator as MuMu. This recorded the supplied environment description, not a verified version, installed MAA instance, successful connection or compatibility result.
+- The next question at that checkpoint was whether MAA on that Windows PC already connected to MuMu; the later owner answer is recorded below. Exact MuMu/MAA releases and the remaining H04 setup/test details stayed open; platform confirmation did not approve either proposed controller route or a live operation.
 - This is a handoff/documentation update. No application, test, developer-helper or dependency implementation was changed, and no Windows host, emulator, private recording, model or training runtime was accessed.
 - Public connection guidance in the controller notes was checked against three actual official page responses: MuMu diagnostics, MuMu developer notes, and MAA connection settings. Reads were bounded and retained TLS verification; no SDK/device command or emulator setting was run. These dynamic-page observations do not pin the user's releases or replace runtime compatibility testing.
 - Fresh coordinator checks passed: 307 application tests in 6.344s, 12 developer-helper tests in 10.240s, compilation of `src`, `tests` and `tools/media_runtime`, and diff checks. Source/tests/helper/dependency files still match `c4ce8c2`. These are existing-host offline checks, not Windows/MuMu or game verification.
 - Independent factual/specification and subsequent documentation-quality reviews passed. All 131 local links across 35 Markdown files resolved, and a targeted private-path/key-pattern check of the four changed documents found no matches. This limited publication check is not a comprehensive privacy/security audit or approval of device access.
+
+### Owner-reported working connection and minimum-integration proposal (2026-09-09)
+
+- The owner answered that their existing MAA connects to MuMu normally. H04 now records that supplied fact; no project connection, screenshot, input or Windows compatibility test has occurred. Do not repeat the already answered connection/platform questions.
+- The next decision is the proposed Windows-local minimum integration in the controller notes: explicitly selected SDK/configuration/instance, fresh screenshot evidence, and one separately approved menu input followed by a new screenshot. This is a discussion proposal, not an approved specification, implementation plan, controller interface or device-test authorization.
+- The recommended route remains a later MAA-owned automation baseline before a custom-policy controller. The minimum calibration does not start a Roguelike task, implement battle logic, map the existing abstract menu actions to coordinates, or establish a full-game loop. H01/H07 still gate gameplay acceptance; training remains deferred.
+- This documentation step changes no application, tests, developer helper or dependencies. It does not access a Windows host, emulator, private recording, model, GPU or training runtime.
+- A further fixed-source review covered MaaCore asynchronous completion/callback ordering, shared screenshot cache, scaled click coordinates, task-stop versus pending-call semantics, and the Python image wrapper's return-length/failure-sentinel handling. The coordinator directly read the load-bearing official excerpts; an independent source review agreed. The controller notes retain exact files and lines. These are static observations at the existing fixed commit, not executed SDK tests or findings about the owner's installed version.
+- Fresh coordinator checks passed: 307 application tests in 6.306s and 12 developer-helper tests in 10.232s, plus compilation of `src`, `tests` and `tools/media_runtime` and diff checks. These are current-Mac offline checks, not Windows/MuMu, live-control or game-outcome evidence.
+- Implementation directories and dependency declarations remain unchanged from `614fa3f`. All 132 local links across 35 tracked Markdown documents resolved; a targeted private-path/key-pattern check of the four changed documents found no matches. This is a limited publication check, not a comprehensive privacy or security audit.
+- Separate factual/specification and documentation-quality reviews passed after clarifying the already answered connection status and the source-reading provenance. Review approval covers this documentation increment, not the proposed adapter design or a live operation.
 
 ## Not demonstrated
 
@@ -194,10 +207,11 @@ pipeline retained as a later track and actual training deferred.
 - [x] Independently review the runtime receipt and portable handoff package.
 - [x] Validate fresh local and GitHub-default-branch clones and publish the portable handoff to the default entry and development branch.
 - [x] Retain and independently review the three developer-helper close-failure regressions; verify the unchanged runner/application boundary.
-- [ ] Confirm existing MAA connection status, exact releases and remaining H04 details for the owner-confirmed Windows/MuMu target, plus H01 gameplay scope; review a controller-first design, then its implementation plan and test-first adapter work.
+- [x] Record the owner's Windows/MuMu target and report that existing MAA connects normally, without treating it as a project runtime test.
+- [ ] Review the proposed Windows-local minimum integration; obtain exact releases and remaining H04 setup/test details, then complete the reviewed specification, implementation plan and test-first adapter work. Resolve H01/H07 before later gameplay acceptance.
 - [ ] Resolve H08 design-scope confirmation and finalize the complete native-index specification/plan.
 - [ ] Implement native timestamp indexing and verified causal frame extraction as separate boundaries.
 - [ ] Continue separately gated target-environment, model-snapshot/dependency, and controller integration checks without launching training.
 - [ ] Prepare offline policy/evaluation interfaces and reports; do not claim real performance from fixtures.
 
-The v1 manifest, metadata report, preparation command, byte inventory, and setup-preflight report are implemented and reviewed but do not constitute a complete media pipeline or a model/controller runtime. The local CPU runtime experiment is measured, not a product decoder interface. The portable handoff has passed a genuine GitHub-default-branch clone check, and the helper-only regression follow-up is reviewed. The next project task is the controller-first track: clarify the remaining Windows/MuMu setup details and review the smallest controlled integration before implementation. H08 and the native index/extractor remain later, separate work. [HANDOFF.md](HANDOFF.md) gives the concrete continuation order and [the roadmap](docs/project-roadmap.md) retains the full goal. Target/model/controller readiness still needs its own evidence and appropriate access. Existing MAA automation must not be counted as learned-model performance. No actual training job should start automatically. See `HUMAN_HELP.md` for the pending decisions and access gates.
+The v1 manifest, metadata report, preparation command, byte inventory, and setup-preflight report are implemented and reviewed but do not constitute a complete media pipeline or a model/controller runtime. The local CPU runtime experiment is measured, not a product decoder interface. The portable handoff has passed a genuine GitHub-default-branch clone check, and the helper-only regression follow-up is reviewed. The next project task is the controller-first track: review the proposed Windows-local minimum integration, preserving the owner's already answered connection status and the remaining setup/test boundaries. H08 and the native index/extractor remain later, separate work. [HANDOFF.md](HANDOFF.md) gives the concrete continuation order and [the roadmap](docs/project-roadmap.md) retains the full goal. Target/model/controller readiness still needs its own evidence and appropriate access. Existing MAA automation must not be counted as learned-model performance. No actual training job should start automatically. See `HUMAN_HELP.md` for the pending decisions and access gates.
