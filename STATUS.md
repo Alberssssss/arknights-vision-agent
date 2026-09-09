@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-09-08
+Updated: 2026-09-09
 
 ## Overall goal
 
@@ -12,6 +12,11 @@ Latest priority update (2026-09-08): tackle MAA/controller integration, automati
 battle and the eventual full-game loop before the unfinished video pipeline.
 This is a change of work order, not a claim that live control is implemented or
 that a particular device/test has been approved. Actual training stays deferred.
+
+Target clarification (2026-09-09): the owner confirmed a Windows PC running a
+MuMu Android emulator. H04 is partly answered; exact releases, existing MAA
+connection status, instance/capture details and bounded-test scope remain open.
+The project has not observed or connected to that environment.
 
 ## Completed milestone: offline foundation
 
@@ -151,10 +156,19 @@ This completes a current-Mac configuration-report boundary, not target-machine s
 
 - The owner asked to tackle MAA/control and the full-game loop before the unfinished video pipeline, and requested an exact explanation of the existing foundation/data methods. The [implementation walkthrough](docs/implementation-methods.md) distinguishes current source behavior from the proposed media pipeline. No application, test, runner or dependency implementation changed in this documentation step.
 - The [controller-first notes](docs/controller-first-notes.md) compare an existing MAA automation baseline with a future custom-policy MaaFramework path. The coordinator independently read six official MaaAssistantArknights files at fixed commit `e523b2038c6790f5f45d95c2e1de84c3450cc357`, checked their returned Git blob identities and inspected the API/task/queue/settlement excerpts. Source research is not SDK loading, binary compatibility, device contact, or game-outcome evidence.
-- H04's actual game platform/device remains unspecified, and H01 is still needed for gameplay acceptance. A controller design/plan and live adapter remain unimplemented; selecting a work priority did not select or approve an exact integration. H08 remains a later video decision. No private recordings, device operations, model inference or training were performed for this research/documentation step.
+- At that checkpoint, H04's actual game platform/device was unspecified, and H01 was still needed for gameplay acceptance. A controller design/plan and live adapter remained unimplemented; selecting a work priority did not select or approve an exact integration. H08 remained a later video decision. No private recordings, device operations, model inference or training were performed for that research/documentation step.
 - Fresh coordinator verification caught a README text-contract regression; restoring the explicit training-deferral wording passed its targeted test. The subsequent full application suite passed all 307 tests in 4.981s, and the separate developer-helper suite passed all 12 tests in 10.239s. Compilation of `src`, `tests` and `tools/media_runtime`, diff checks, and comparison of source/tests/helper/dependency files with `4544fd2` passed. These are CPython 3.13.7/current-Mac checks, not controller, video-product, cross-platform or game verification.
 - The nine-document change set contains no implementation or new dependency files. All 131 local links across 35 Markdown documents resolved; a targeted private-path/key-pattern check of the nine changed documents found no matches. This is a limited publication check, not a comprehensive privacy or security audit.
 - Separate foundation factual/specification, selected MAA source-fact, and final documentation-quality reviews passed after identifier-uniqueness, screenshot-binding and priority-text corrections. These reviews cover the documentation and cited source boundaries, not approval or validation of a new implementation or live operation.
+
+### Owner-confirmed Windows/MuMu target (2026-09-09)
+
+- The owner identified the platform as a Windows PC and the emulator as MuMu. This records the supplied environment description, not a verified version, installed MAA instance, successful connection or compatibility result.
+- The next owner question is whether MAA on that Windows PC already connects to MuMu. Exact MuMu/MAA releases and the remaining H04 setup/test details stay open; platform confirmation does not approve either proposed controller route or a live operation.
+- This is a handoff/documentation update. No application, test, developer-helper or dependency implementation was changed, and no Windows host, emulator, private recording, model or training runtime was accessed.
+- Public connection guidance in the controller notes was checked against three actual official page responses: MuMu diagnostics, MuMu developer notes, and MAA connection settings. Reads were bounded and retained TLS verification; no SDK/device command or emulator setting was run. These dynamic-page observations do not pin the user's releases or replace runtime compatibility testing.
+- Fresh coordinator checks passed: 307 application tests in 6.344s, 12 developer-helper tests in 10.240s, compilation of `src`, `tests` and `tools/media_runtime`, and diff checks. Source/tests/helper/dependency files still match `c4ce8c2`. These are existing-host offline checks, not Windows/MuMu or game verification.
+- Independent factual/specification and subsequent documentation-quality reviews passed. All 131 local links across 35 Markdown files resolved, and a targeted private-path/key-pattern check of the four changed documents found no matches. This limited publication check is not a comprehensive privacy/security audit or approval of device access.
 
 ## Not demonstrated
 
@@ -180,10 +194,10 @@ pipeline retained as a later track and actual training deferred.
 - [x] Independently review the runtime receipt and portable handoff package.
 - [x] Validate fresh local and GitHub-default-branch clones and publish the portable handoff to the default entry and development branch.
 - [x] Retain and independently review the three developer-helper close-failure regressions; verify the unchanged runner/application boundary.
-- [ ] Clarify the H04 game environment and H01 gameplay target; review a scoped controller-first design, then its implementation plan and test-first adapter work.
+- [ ] Confirm existing MAA connection status, exact releases and remaining H04 details for the owner-confirmed Windows/MuMu target, plus H01 gameplay scope; review a controller-first design, then its implementation plan and test-first adapter work.
 - [ ] Resolve H08 design-scope confirmation and finalize the complete native-index specification/plan.
 - [ ] Implement native timestamp indexing and verified causal frame extraction as separate boundaries.
 - [ ] Continue separately gated target-environment, model-snapshot/dependency, and controller integration checks without launching training.
 - [ ] Prepare offline policy/evaluation interfaces and reports; do not claim real performance from fixtures.
 
-The v1 manifest, metadata report, preparation command, byte inventory, and setup-preflight report are implemented and reviewed but do not constitute a complete media pipeline or a model/controller runtime. The local CPU runtime experiment is measured, not a product decoder interface. The portable handoff has passed a genuine GitHub-default-branch clone check, and the helper-only regression follow-up is reviewed. The next project task is now the controller-first track: clarify the actual game environment and review the smallest controlled integration before implementation. H08 and the native index/extractor remain later, separate work. [HANDOFF.md](HANDOFF.md) gives the concrete continuation order and [the roadmap](docs/project-roadmap.md) retains the full goal. Target/model/controller readiness still needs its own evidence and appropriate access. Existing MAA automation must not be counted as learned-model performance. No actual training job should start automatically. See `HUMAN_HELP.md` for the pending decisions and access gates.
+The v1 manifest, metadata report, preparation command, byte inventory, and setup-preflight report are implemented and reviewed but do not constitute a complete media pipeline or a model/controller runtime. The local CPU runtime experiment is measured, not a product decoder interface. The portable handoff has passed a genuine GitHub-default-branch clone check, and the helper-only regression follow-up is reviewed. The next project task is the controller-first track: clarify the remaining Windows/MuMu setup details and review the smallest controlled integration before implementation. H08 and the native index/extractor remain later, separate work. [HANDOFF.md](HANDOFF.md) gives the concrete continuation order and [the roadmap](docs/project-roadmap.md) retains the full goal. Target/model/controller readiness still needs its own evidence and appropriate access. Existing MAA automation must not be counted as learned-model performance. No actual training job should start automatically. See `HUMAN_HELP.md` for the pending decisions and access gates.

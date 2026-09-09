@@ -1,6 +1,6 @@
 # Project handoff — read before continuing
 
-Snapshot updated: **2026-09-08**. This file is the starting point for another
+Snapshot updated: **2026-09-09**. This file is the starting point for another
 Codex session, including an IDE session with no access to the old conversation.
 It records project facts and the next work, not a transferable running session.
 
@@ -27,6 +27,11 @@ pipeline. The owner also requested an exact explanation of the existing
 foundation/data methods; see the [implementation walkthrough](docs/implementation-methods.md).
 This priority change is not approval of a specific new SDK design or a connection
 to an unspecified device. Training remains deferred.
+
+Owner-provided target, **2026-09-09**: a Windows PC running a MuMu Android
+emulator. Do not ask for the platform/emulator again or infer a specific MuMu
+release. Exact versions, existing MAA connection status and the remaining H04
+details are still unknown; no Windows/device access has been performed.
 
 ## First actions in a fresh session
 
@@ -89,10 +94,13 @@ decoder or a containment guarantee for arbitrary child processes.
 
 ### 1. Prioritize the controller and game-loop track
 
-First clarify where the game actually runs: host platform and emulator/device.
-Do not infer that the game runs on the development Mac. H04 still covers the
-target, client/capture details and a bounded connection/input test; H01 supplies
-the theme, difficulty, ending and roster needed for any real gameplay claim.
+The owner confirmed Windows PC + MuMu Android emulator on 2026-09-09. The next
+question is whether MAA on that Windows PC already connects to MuMu successfully.
+Then collect the exact MuMu/MAA releases, explicitly selected instance and
+client/capture details needed for the scoped design. Do not silently assume
+MuMu 12, an example port/path, or a particular instance. H04 remains partly
+answered and still needs an agreed bounded connection/input-test scope; H01
+supplies the theme, difficulty, ending and roster for any real gameplay claim.
 
 Read the [controller-first research notes](docs/controller-first-notes.md),
 compare an existing MAA automation baseline with a custom MaaFramework control
